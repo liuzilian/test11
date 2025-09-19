@@ -30,7 +30,40 @@
         },
         "responses": {
           "200": {
-            "$ref": "#/components/responses/M2_Resp1"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/M2-schema1"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:M2_Resp1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "",
+                  "type": "object",
+                  "properties": {
+                    "M2_Resp1_item": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "ID 编号"
+                    }
+                  },
+                  "required": [
+                    "M2_Resp1_item",
+                    "id"
+                  ]
+                }
+              }
+            },
+            "headers": {}
           }
         },
         "security": [
@@ -64,6 +97,31 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Pet"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:M2_Resp1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "",
+                  "type": "object",
+                  "properties": {
+                    "M2_Resp1_item": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "ID 编号"
+                    }
+                  },
+                  "required": [
+                    "M2_Resp1_item",
+                    "id"
+                  ]
                 }
               }
             },
@@ -113,6 +171,18 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
           "201": {
             "description": "",
             "content": {
@@ -154,6 +224,98 @@
                     ],
                     "status": "sold"
                   }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-201:新建成功（示例）": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-401:参数不正确（示例）": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:组件2-全局默认on&有示例": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                },
+                "example": {
+                  "result": "全局响应组件，新接口默认on"
                 }
               }
             },
