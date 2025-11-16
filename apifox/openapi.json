@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "宠物商店",
+    "title": "47-alpha.1-【git-回归测试-默认模块】备份main_all_openapi3.0",
     "description": "",
     "version": "1.0.0"
   },
@@ -11,115 +11,54 @@
     }
   ],
   "paths": {
-    "/pet/{petId}": {
+    "/ref/other_module/1": {
       "get": {
-        "summary": "查询宠物详情",
+        "summary": "/ref/other_module/1 Copy",
         "deprecated": false,
         "description": "",
-        "tags": [
-          "宠物"
-        ],
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "宠物 ID",
-            "required": true,
-            "example": "1",
-            "schema": {
-              "type": "string"
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/M2-schema1"
+              },
+              "examples": {}
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "maximum": 0,
-                      "description": "状态码"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/Pet",
-                      "description": "宠物信息"
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "data"
-                  ]
-                },
-                "example": {
-                  "code": 0,
-                  "data": {
-                    "name": "Hello Kity",
-                    "photoUrls": [
-                      "http://dummyimage.com/400x400"
-                    ],
-                    "id": 3,
-                    "category": {
-                      "id": 71,
-                      "name": "Cat"
-                    },
-                    "tags": [
-                      {
-                        "id": 22,
-                        "name": "Cat"
-                      }
-                    ],
-                    "status": "sold"
-                  }
+                  "$ref": "#/components/schemas/M2-schema1"
                 }
               }
             },
             "headers": {}
           },
-          "400": {
+          "x-200:M2_Resp1": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
+                  "title": "",
                   "type": "object",
                   "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
+                    "M2_Resp1_item": {
                       "type": "string"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "ID 编号"
                     }
                   },
                   "required": [
-                    "code",
-                    "message"
-                  ]
-                }
-              }
-            },
-            "headers": {}
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "code",
-                    "message"
+                    "M2_Resp1_item",
+                    "id"
                   ]
                 }
               }
@@ -127,61 +66,73 @@
             "headers": {}
           }
         },
-        "security": []
-      },
-      "delete": {
-        "summary": "删除宠物信息",
+        "security": [
+          {
+            "Auth-Bearer Token": []
+          }
+        ]
+      }
+    },
+    "/ref/current_module/2": {
+      "get": {
+        "summary": "/ref/current_module/2",
         "deprecated": false,
         "description": "",
-        "tags": [
-          "宠物"
-        ],
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "Pet id to delete",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "api_key",
-            "in": "header",
-            "description": "",
-            "schema": {
-              "type": "string"
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              },
+              "examples": {}
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:M2_Resp1": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "",
                   "type": "object",
                   "properties": {
-                    "code": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "maximum": 0
+                    "M2_Resp1_item": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string",
+                      "description": "ID 编号"
                     }
                   },
                   "required": [
-                    "code"
+                    "M2_Resp1_item",
+                    "id"
                   ]
-                },
-                "example": {
-                  "code": 0
                 }
               }
             },
             "headers": {}
           }
         },
-        "security": []
+        "security": [
+          {
+            "M1_scheme1": []
+          }
+        ]
       }
     },
     "/pet": {
@@ -214,11 +165,24 @@
                   "name",
                   "status"
                 ]
-              }
+              },
+              "examples": {}
             }
           }
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
           "201": {
             "description": "",
             "content": {
@@ -260,6 +224,98 @@
                     ],
                     "status": "sold"
                   }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-201:新建成功（示例）": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-401:参数不正确（示例）": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "x-200:组件2-全局默认on&有示例": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "result"
+                  ]
+                },
+                "example": {
+                  "result": "全局响应组件，新接口默认on"
                 }
               }
             },
@@ -350,6 +406,62 @@
                 "schema": {
                   "type": "object",
                   "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/pet/{petId}": {
+      "delete": {
+        "summary": "删除宠物信息",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "宠物"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Pet id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 0
+                    }
+                  },
+                  "required": [
+                    "code"
+                  ]
+                },
+                "example": {
+                  "code": 0
                 }
               }
             },
@@ -464,14 +576,14 @@
         "required": [
           "name",
           "photoUrls",
-          "id",
+          "id_main",
           "category",
           "tags",
           "status"
         ],
         "type": "object",
         "properties": {
-          "id": {
+          "id_main": {
             "type": "integer",
             "format": "int64",
             "minimum": 1,
@@ -546,9 +658,34 @@
         "xml": {
           "name": "Tag"
         }
+      },
+      "M2-schema1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID 编号"
+          },
+          "M2-schema1": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "M2-schema1"
+        ]
       }
     },
-    "securitySchemes": {}
+    "securitySchemes": {
+      "Auth-Bearer Token": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "M1_scheme1": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   },
   "servers": [],
   "security": []
