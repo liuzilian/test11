@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "模块一、Pet Store",
+    "title": "宠物商店",
     "description": "",
     "version": "1.0.0"
   },
@@ -11,78 +11,137 @@
     }
   ],
   "paths": {
-    "/ref/other_module/1": {
+    "/pet/{petId}": {
       "get": {
-        "summary": "/ref/other_module/1 Copy",
+        "summary": "查询宠物详情",
         "deprecated": false,
         "description": "",
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/M2-schema1"
-              },
-              "examples": {}
+        "tags": [
+          "宠物"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "宠物 ID",
+            "required": true,
+            "example": "1",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/M2-schema1"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 0,
+                      "description": "状态码"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Pet",
+                      "description": "宠物信息"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": 0,
+                  "data": {
+                    "name": "Hello Kity",
+                    "photoUrls": [
+                      "http://dummyimage.com/400x400"
+                    ],
+                    "id": 3,
+                    "category": {
+                      "id": 71,
+                      "name": "Cat"
+                    },
+                    "tags": [
+                      {
+                        "id": 22,
+                        "name": "Cat"
+                      }
+                    ],
+                    "status": "sold"
+                  }
                 }
               }
-            },
-            "headers": {}
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/参数不正确",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/记录不存在",
+            "description": ""
           }
         },
-        "security": [
-          {
-            "Auth-Bearer Token": []
-          }
-        ]
-      }
-    },
-    "/ref/current_module/2": {
-      "get": {
-        "summary": "/ref/current_module/2",
+        "security": []
+      },
+      "delete": {
+        "summary": "删除宠物信息",
         "deprecated": false,
         "description": "",
-        "tags": [],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Tag"
-              },
-              "examples": {}
+        "tags": [
+          "宠物"
+        ],
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "description": "Pet id to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 0
+                    }
+                  },
+                  "required": [
+                    "code"
+                  ]
+                },
+                "example": {
+                  "code": 0
                 }
               }
-            },
-            "headers": {}
+            }
           }
         },
-        "security": [
-          {
-            "M1_scheme1": []
-          }
-        ]
+        "security": []
       }
     },
     "/pet": {
@@ -115,8 +174,7 @@
                   "name",
                   "status"
                 ]
-              },
-              "examples": {}
+              }
             }
           }
         },
@@ -164,8 +222,7 @@
                   }
                 }
               }
-            },
-            "headers": {}
+            }
           }
         },
         "security": []
@@ -230,8 +287,7 @@
                   }
                 }
               }
-            },
-            "headers": {}
+            }
           },
           "404": {
             "description": "",
@@ -242,8 +298,7 @@
                   "properties": {}
                 }
               }
-            },
-            "headers": {}
+            }
           },
           "405": {
             "description": "",
@@ -254,64 +309,7 @@
                   "properties": {}
                 }
               }
-            },
-            "headers": {}
-          }
-        },
-        "security": []
-      }
-    },
-    "/pet/{petId}": {
-      "delete": {
-        "summary": "删除宠物信息",
-        "deprecated": false,
-        "description": "",
-        "tags": [
-          "宠物"
-        ],
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "Pet id to delete",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
-          },
-          {
-            "name": "api_key",
-            "in": "header",
-            "description": "",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "maximum": 0
-                    }
-                  },
-                  "required": [
-                    "code"
-                  ]
-                },
-                "example": {
-                  "code": 0
-                }
-              }
-            },
-            "headers": {}
           }
         },
         "security": []
@@ -389,8 +387,7 @@
                   ]
                 }
               }
-            },
-            "headers": {}
+            }
           },
           "400": {
             "description": "",
@@ -408,8 +405,7 @@
                   ]
                 }
               }
-            },
-            "headers": {}
+            }
           }
         },
         "security": []
@@ -422,14 +418,14 @@
         "required": [
           "name",
           "photoUrls",
-          "id_main",
+          "id",
           "category",
           "tags",
           "status"
         ],
         "type": "object",
         "properties": {
-          "id_main": {
+          "id": {
             "type": "integer",
             "format": "int64",
             "minimum": 1,
@@ -504,44 +500,26 @@
         "xml": {
           "name": "Tag"
         }
-      },
-      "M2-schema1": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "ID 编号"
-          },
-          "M2-schema1": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "M2-schema1"
-        ]
       }
     },
     "responses": {
-      "M2_Resp1": {
+      "记录不存在": {
         "description": "",
         "content": {
           "application/json": {
             "schema": {
-              "title": "",
               "type": "object",
               "properties": {
-                "M2_Resp1_item": {
-                  "type": "string"
+                "code": {
+                  "type": "integer"
                 },
-                "id": {
-                  "type": "string",
-                  "description": "ID 编号"
+                "message": {
+                  "type": "string"
                 }
               },
               "required": [
-                "M2_Resp1_item",
-                "id"
+                "code",
+                "message"
               ]
             }
           }
@@ -570,16 +548,7 @@
         }
       }
     },
-    "securitySchemes": {
-      "Auth-Bearer Token": {
-        "type": "http",
-        "scheme": "bearer"
-      },
-      "M1_scheme1": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    }
+    "securitySchemes": {}
   },
   "servers": [],
   "security": []
