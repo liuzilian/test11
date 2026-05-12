@@ -1,0 +1,3355 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "商店 API",
+    "description": "管理宠物商店中的宠物、订单、购买、用户及其他操作。",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Pet"
+    },
+    {
+      "name": "Chat"
+    },
+    {
+      "name": "Store"
+    },
+    {
+      "name": "Payments"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "Webhooks"
+    }
+  ],
+  "paths": {
+    "/pets": {
+      "get": {
+        "summary": "列出宠物",
+        "deprecated": false,
+        "description": "检索待领养宠物的分页列表，支持可选过滤。",
+        "operationId": "listPets",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "name": "species",
+            "in": "query",
+            "description": "按宠物物种过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DOG",
+                "CAT",
+                "RABBIT",
+                "BIRD",
+                "REPTILE",
+                "OTHER"
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "按领养状态过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AVAILABLE",
+                "PENDING",
+                "ADOPTED"
+              ],
+              "default": "AVAILABLE"
+            }
+          },
+          {
+            "name": "ageMin",
+            "in": "query",
+            "description": "最小月龄",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "ageMax",
+            "in": "query",
+            "description": "最大月龄",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "按宠物尺寸过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SMALL",
+                "MEDIUM",
+                "LARGE"
+              ]
+            }
+          },
+          {
+            "name": "goodWithKids",
+            "in": "query",
+            "description": "过滤适宜儿童的宠物",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "分页页码",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "每页条目数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "宠物集合获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PetCollection"
+                },
+                "examples": {
+                  "multiple-pets": {
+                    "summary": "Multiple pets available",
+                    "value": {
+                      "data": [
+                        {
+                          "id": "01936c8f-1234-7000-8000-111111111111",
+                          "species": "CAT",
+                          "name": "Whiskers",
+                          "breed": "Domestic Shorthair",
+                          "ageMonths": 18,
+                          "size": "MEDIUM",
+                          "color": "Orange Tabby",
+                          "gender": "MALE",
+                          "goodWithKids": true,
+                          "price": "75.00",
+                          "description": "Friendly and playful orange tabby looking for a loving home",
+                          "status": "AVAILABLE",
+                          "photos": [
+                            "https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo1.jpg"
+                          ]
+                        },
+                        {
+                          "id": "01936c8f-2345-7000-8000-222222222222",
+                          "species": "DOG",
+                          "name": "Max",
+                          "breed": "Labrador Retriever",
+                          "ageMonths": 36,
+                          "size": "LARGE",
+                          "color": "Yellow",
+                          "gender": "MALE",
+                          "goodWithKids": true,
+                          "price": "150.00",
+                          "description": "Energetic and loyal lab who loves fetch and long walks",
+                          "status": "AVAILABLE",
+                          "photos": [
+                            "https://cdn.petstoreapi.com/pets/01936c8f-2345-7000-8000-222222222222/photo1.jpg"
+                          ]
+                        }
+                      ],
+                      "pagination": {
+                        "page": 1,
+                        "limit": 20,
+                        "totalItems": 45,
+                        "totalPages": 3
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Remaining": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Reset": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "创建宠物",
+        "deprecated": false,
+        "description": "向商店目录添加一只新宠物，使其处于待领养状态。\n\n## 宠物生命周期工作流\n\n当新宠物进入系统时：\n\n1. **登记**：工作人员通过此端点创建宠物记录（状态：`available`）\n2. **档案**：宠物详情包括物种、品种、年龄、医疗信息、照片和领养费\n3. **搜索**：宠物会出现在搜索结果和列表中\n4. **领养申请**：潜在领养人可以通过领养端点提出申请\n5. **领养完成**：一旦批准，宠物状态变为 `adopted`\n6. **后续**：宠物记录将被保留用于历史审计\n\n**权限**：此操作需要工作人员权限（`write:pets` 作用域或有效的 Bearer 令牌）。仅经过身份验证的工作人员可以向系统添加宠物。",
+        "operationId": "createPet",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              },
+              "example": {
+                "name": "Max",
+                "species": "DOG",
+                "breed": "Golden Retriever",
+                "ageMonths": 24,
+                "size": "LARGE",
+                "color": "Golden",
+                "gender": "MALE",
+                "goodWithKids": true,
+                "price": "250.00",
+                "currency": "USD",
+                "status": "AVAILABLE",
+                "description": "Friendly golden retriever looking for an active family",
+                "medicalInfo": {
+                  "vaccinated": true,
+                  "spayedNeutered": true,
+                  "microchipped": true,
+                  "specialNeeds": false,
+                  "healthNotes": "Up to date on all vaccinations"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "宠物创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Remaining": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Reset": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": [
+              "write:pets"
+            ]
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst newPet = await client.pets.create({\n  species: 'dog',\n  name: 'Buddy',\n  breed: 'Golden Retriever',\n  ageMonths: 24,\n  size: 'large',\n  color: 'Golden',\n  gender: 'male',\n  goodWithKids: true,\n\n  price: '150.00',\n  description: 'Friendly golden retriever looking for an active family'\n});\n\nconsole.log(`Created pet with ID: ${newPet.id}`);"
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\n\nnew_pet = client.pets.create(\n    species='dog',\n    name='Buddy',\n    breed='Golden Retriever',\n    ageMonths=24,\n    size='large',\n    color='Golden',\n    gender='male',\n    goodWithKids=True,\n\n    price='150.00',\n    description='Friendly golden retriever looking for an active family'\n)\n\nprint(f\"Created pet with ID: {new_pet.id}\")"
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript (Fetch)",
+            "source": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/pets',\n  {\n    method: 'POST',\n    headers: {\n      'Authorization': `Bearer ${accessToken}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      species: 'dog',\n      name: 'Buddy',\n      breed: 'Golden Retriever',\n      ageMonths: 24,\n      size: 'large',\n      color: 'Golden',\n      gender: 'male',\n      goodWithKids: true,\n\n      price: '150.00',\n      description: 'Friendly golden retriever looking for an active family'\n    })\n  }\n);\n\nconst newPet = await response.json();\nconsole.log(`Created pet with ID: ${newPet.id}`);"
+          },
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "curl -X POST 'https://api.petstoreapi.com/v1/pets' \\\n  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"species\": \"dog\",\n    \"name\": \"Buddy\",\n    \"breed\": \"Golden Retriever\",\n    \"ageMonths\": 24,\n    \"size\": \"large\",\n    \"color\": \"Golden\",\n    \"gender\": \"male\",\n    \"goodWithKids\": true,\n\n    \"price\": \"150.00\",\n    \"description\": \"Friendly golden retriever looking for an active family\"\n  }'"
+          }
+        ]
+      }
+    },
+    "/pets/{id}": {
+      "get": {
+        "summary": "获取宠物",
+        "deprecated": false,
+        "description": "检索特定宠物的详细信息。",
+        "operationId": "getPet",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "019bb615-7755-7389-b5fc-9165193e1146",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "宠物详情获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                },
+                "examples": {
+                  "cat-example": {
+                    "summary": "A friendly cat",
+                    "value": {
+                      "id": "01936c8f-1234-7000-8000-111111111111",
+                      "species": "CAT",
+                      "name": "Whiskers",
+                      "breed": "Domestic Shorthair",
+                      "ageMonths": 18,
+                      "size": "MEDIUM",
+                      "color": "Orange Tabby",
+                      "gender": "MALE",
+                      "goodWithKids": true,
+                      "price": "75.00",
+                      "description": "Friendly and playful orange tabby looking for a loving home",
+                      "status": "AVAILABLE",
+                      "photos": [
+                        "https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo1.jpg",
+                        "https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo2.jpg"
+                      ],
+                      "medicalInfo": {
+                        "spayedNeutered": true,
+                        "vaccinated": true,
+                        "microchipped": true,
+                        "specialNeeds": false
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Remaining": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Reset": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  apiKey: process.env.PETSTORE_API_KEY\n});\n\nconst pet = await client.pets.get('01936c8f-1234-7000-8000-111111111111');\nconsole.log(`Found ${pet.name}, a ${pet.ageMonths}-month-old ${pet.species}`);"
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(api_key=os.environ['PETSTORE_API_KEY'])\n\npet = client.pets.get('01936c8f-1234-7000-8000-111111111111')\nprint(f\"Found {pet.name}, a {pet.age_months}-month-old {pet.species}\")"
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript (Fetch)",
+            "source": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111',\n  {\n    headers: {\n      'Accept': 'application/json'\n    }\n  }\n);\n\nconst pet = await response.json();\nconsole.log(`Found ${pet.name}, a ${pet.age_months}-month-old ${pet.species}`);"
+          },
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "curl -X GET 'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111' \\\n  -H 'Accept: application/json'"
+          }
+        ]
+      },
+      "put": {
+        "summary": "更新宠物",
+        "deprecated": false,
+        "description": "更新目录中现有宠物的信息。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌",
+        "operationId": "updatePet",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pet"
+              },
+              "example": {
+                "status": "PENDING"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "宠物更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Remaining": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Reset": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": [
+              "write:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除宠物",
+        "deprecated": false,
+        "description": "从系统中永久移除一只宠物。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌\n**注意**：此操作不可逆。请考虑将宠物状态更新为 `NOT_AVAILABLE` 以代替删除。",
+        "operationId": "deletePet",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "宠物删除成功",
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": [
+              "write:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/pets/{id}/images": {
+      "post": {
+        "summary": "上传宠物图片",
+        "deprecated": false,
+        "description": "为指定宠物上传照片。支持 JPEG、PNG 和 WebP 格式，最大支持 5MB。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌",
+        "operationId": "uploadPetPhoto",
+        "tags": [
+          "Pet"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "宠物的唯一标识符",
+            "required": true,
+            "example": "01936c8f-1234-7000-8000-111111111111",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "additionalMetadata": {
+                    "description": "Additional data to pass to server",
+                    "type": "string",
+                    "example": ""
+                  },
+                  "file": {
+                    "description": "File to upload",
+                    "type": "string",
+                    "format": "binary",
+                    "example": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                },
+                "example": {
+                  "code": 3,
+                  "type": "ex dolor",
+                  "message": "Pecus carcer cometes credo."
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": [
+              "write:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/chat/completions": {
+      "post": {
+        "summary": "宠物护理 AI 咨询",
+        "deprecated": false,
+        "description": "AI 驱动的宠物护理咨询服务，用于解答宠物护理问题并提供建议。该端点通过智能对话界面提供有关宠物健康、行为、营养、训练和日常护理的专家指导。支持使用服务器发送事件 (SSE) 的流式响应以实现实时交互。\n\n## OpenAI API 兼容性\n\n该端点遵循 **OpenAI Chat Completions API 规范**，这已成为聊天 AI 交互的业界标准。通过保持与 OpenAI API 设计的兼容性，该端点确保了：\n- 与现有 OpenAI 兼容的 SDK 和工具无缝集成\n- 为已使用 OpenAI API 的开发者提供熟悉的开发体验\n- 为构建在 OpenAI 平台上的应用提供便捷的迁移路径\n\n**注意**：为了保持完全的 OpenAI 兼容性，某些字段名称（例如 `created` 而非 `createdAt`）会有意地与本 API 的命名约定不同。\n\n## 宠物护理专家 AI\n\n我们的 AI 咨询服务帮助宠物主解决以下问题：\n- **健康与福祉**：症状评估、疫苗接种计划、预防性护理建议\n- **营养**：饮食建议、喂食时间表、食物过敏和敏感性\n- **行为与训练**：行为问题、训练技巧、社交化提示\n- **品种信息**：特定品种的护理要求、习性、兼容性\n- **领养指导**：选择合适的宠物、新宠物准备工作、领养流程\n- **紧急情况指导**：急救建议、何时看兽医、紧急护理情况\n\n**免责声明**：此 AI 仅提供一般性指导，不能替代专业的兽医护理。请务必咨询持有执照的兽医进行医疗诊断和治疗。\n\n## 流模式 (Streaming)\n\n当 `stream: true` 时，响应将作为服务器发送事件 (SSE) 发送，每个令牌增量传递。这为较长的响应提供了更好的用户体验。\n\n### 流格式\n\n每个数据块发送格式为：\n`\ndata: {\"id\":\"chatcmpl_abc\",\"object\":\"chat.completion.chunk\",\"choices\":[{\"delta\":{\"content\":\"你好\"},\"index\":0}]}\n\n`\n\n流结束标志：\n`\ndata: [DONE]\n\n`\n\n## 非流模式\n\n当 `stream: false` 或省略时，返回完整的响应对象。",
+        "operationId": "createChatCompletion",
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "messages"
+                ],
+                "properties": {
+                  "messages": {
+                    "type": "array",
+                    "description": "A list of messages comprising the conversation so far",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "role",
+                        "content"
+                      ],
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "SYSTEM",
+                            "USER",
+                            "ASSISTANT"
+                          ],
+                          "description": "The role of the message author"
+                        },
+                        "content": {
+                          "type": "string",
+                          "description": "The contents of the message"
+                        }
+                      }
+                    },
+                    "minItems": 1
+                  },
+                  "model": {
+                    "type": "string",
+                    "description": "ID of the model to use",
+                    "enum": [
+                      "PET_ADVISOR_1",
+                      "PET_ADVISOR_TURBO"
+                    ],
+                    "default": "PET_ADVISOR_1"
+                  },
+                  "stream": {
+                    "type": "boolean",
+                    "description": "If true, partial message deltas will be sent via Server-Sent Events",
+                    "default": true
+                  },
+                  "maxTokens": {
+                    "type": "integer",
+                    "description": "Maximum number of tokens to generate",
+                    "minimum": 1,
+                    "maximum": 4096,
+                    "default": 1024
+                  },
+                  "temperature": {
+                    "type": "number",
+                    "description": "Sampling temperature between 0 and 2",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "default": 1
+                  }
+                },
+                "unevaluatedProperties": false
+              },
+              "examples": {
+                "pet-health-question": {
+                  "value": {
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "My dog has been scratching a lot lately. What could be causing this?"
+                      }
+                    ],
+                    "model": "pet-advisor-1",
+                    "stream": false
+                  },
+                  "summary": "宠物健康咨询"
+                },
+                "pet-nutrition-advice": {
+                  "value": {
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "What's the best diet for a senior cat with kidney issues?"
+                      }
+                    ],
+                    "model": "pet-advisor-1",
+                    "stream": false
+                  },
+                  "summary": "宠物营养咨询"
+                },
+                "streaming-conversation": {
+                  "value": {
+                    "messages": [
+                      {
+                        "role": "system",
+                        "content": "You are an expert pet care consultant specializing in dog and cat health, behavior, and nutrition."
+                      },
+                      {
+                        "role": "user",
+                        "content": "My puppy keeps biting furniture. How can I stop this behavior?"
+                      },
+                      {
+                        "role": "assistant",
+                        "content": "Puppy chewing is normal teething behavior. Provide appropriate chew toys and redirect when they bite furniture."
+                      },
+                      {
+                        "role": "user",
+                        "content": "What kind of chew toys do you recommend?"
+                      }
+                    ],
+                    "model": "pet-advisor-turbo",
+                    "stream": true,
+                    "temperature": 0.7
+                  },
+                  "summary": "流式多轮对话"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "响应成功。格式取决于 `stream` 参数。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Non-streaming response (when stream=false)",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "该次补全任务的唯一标识符",
+                      "pattern": "^chatcmpl_[a-z0-9]+$"
+                    },
+                    "object": {
+                      "type": "string",
+                      "const": "chat.completion"
+                    },
+                    "created": {
+                      "type": "integer",
+                      "description": "补全任务创建时的 Unix 时间戳（为了 OpenAI 兼容性：使用 'created' 而非 'createdAt'）"
+                    },
+                    "model": {
+                      "type": "string",
+                      "description": "用于补全的模型"
+                    },
+                    "choices": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "index": {
+                            "type": "integer"
+                          },
+                          "message": {
+                            "type": "object",
+                            "properties": {
+                              "role": {
+                                "type": "string",
+                                "const": "assistant"
+                              },
+                              "content": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "finishReason": {
+                            "type": "string",
+                            "enum": [
+                              "STOP",
+                              "LENGTH",
+                              "CONTENT_FILTER"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "promptTokens": {
+                          "type": "integer"
+                        },
+                        "completionTokens": {
+                          "type": "integer"
+                        },
+                        "totalTokens": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "complete-response": {
+                    "summary": "Complete chat response",
+                    "value": {
+                      "id": "chatcmpl_abc123",
+                      "object": "chat.completion",
+                      "created": 1702648800,
+                      "model": "pet-advisor-1",
+                      "choices": [
+                        {
+                          "index": 0,
+                          "message": {
+                            "role": "assistant",
+                            "content": "Before adopting a cat, consider these important factors:\n\n1. **Time Commitment**: Cats can live 15-20 years\n2. **Space**: Ensure you have adequate living space\n3. **Allergies**: Check if anyone in your household has cat allergies\n4. **Costs**: Budget for food, litter, vet care, and supplies\n5. **Lifestyle**: Consider if your schedule allows for proper care\n\nWould you like recommendations for cats currently available for adoption?"
+                          },
+                          "finishReason": "stop"
+                        }
+                      ],
+                      "usage": {
+                        "promptTokens": 15,
+                        "completionTokens": 89,
+                        "totalTokens": 104
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Content-Type": {
+                "required": false,
+                "description": "响应内容类型",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "text/event-stream",
+                    "application/json"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": [
+              "chat:write"
+            ]
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK (Non-Streaming)",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst completion = await client.chat.completions.create({\n  messages: [\n    { role: 'user', content: 'My dog has been scratching a lot lately. What could be causing this?' }\n  ],\n  model: 'pet-advisor-1',\n  stream: false\n});\n\nconsole.log(completion.choices[0].message.content);"
+          },
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK (Streaming)",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst stream = await client.chat.completions.create({\n  messages: [\n    { role: 'user', content: 'What\\'s the best diet for a senior cat with kidney issues?' }\n  ],\n  model: 'pet-advisor-1',\n  stream: true\n});\n\nfor await (const chunk of stream) {\n  const content = chunk.choices[0]?.delta?.content;\n  if (content) {\n    process.stdout.write(content);\n  }\n}"
+          },
+          {
+            "lang": "Python",
+            "label": "Python (Streaming)",
+            "source": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\n\nstream = client.chat.completions.create(\n    messages=[\n        {\"role\": \"user\", \"content\": \"My puppy keeps biting furniture. How can I stop this behavior?\"}\n    ],\n    model=\"pet-advisor-1\",\n    stream=True\n)\n\nfor chunk in stream:\n    if chunk.choices[0].delta.content:\n        print(chunk.choices[0].delta.content, end=\"\")"
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript (Fetch with SSE)",
+            "source": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/chat/completions',\n  {\n    method: 'POST',\n    headers: {\n      'Authorization': `Bearer ${accessToken}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      messages: [\n        { role: 'user', content: 'How often should I take my cat to the vet for checkups?' }\n      ],\n      model: 'pet-advisor-1',\n      stream: true\n    })\n  }\n);\n\nconst reader = response.body.getReader();\nconst decoder = new TextDecoder();\n\nwhile (true) {\n  const { value, done } = await reader.read();\n  if (done) break;\n  \n  const chunk = decoder.decode(value);\n  const lines = chunk.split('\\n').filter(line => line.startsWith('data: '));\n  \n  for (const line of lines) {\n    const data = line.replace('data: ', '');\n    if (data === '[DONE]') break;\n    const parsed = JSON.parse(data);\n    process.stdout.write(parsed.choices[0]?.delta?.content || '');\n  }\n}"
+          },
+          {
+            "lang": "Shell",
+            "label": "cURL (Non-Streaming)",
+            "source": "curl -X POST 'https://api.petstoreapi.com/v1/chat/completions' \\\n  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"messages\": [\n      {\n        \"role\": \"user\",\n        \"content\": \"What should I know before adopting a cat?\"\n      }\n    ],\n    \"model\": \"pet-advisor-1\",\n    \"stream\": false\n  }'"
+          }
+        ]
+      }
+    },
+    "/inventory": {
+      "get": {
+        "summary": "获取商店库存",
+        "deprecated": false,
+        "description": "返回商店中所有宠物的汇总库存统计数据。\n\n**注意**：该端点使用单数名词，因为 \"inventory\" 是一个集合名词（不可数），代表汇总统计数据，而不是可数资源的集合。\n类似端点：`/dashboard`、`/summary`、`/analytics`。",
+        "operationId": "getStoreInventory",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "available",
+                    "pending",
+                    "adopted",
+                    "total"
+                  ],
+                  "properties": {
+                    "available": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "description": "待领养宠物的数量",
+                      "example": 145
+                    },
+                    "pending": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "description": "领养申请处理中的宠物数量",
+                      "example": 23
+                    },
+                    "adopted": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "description": "已被领养的宠物数量",
+                      "example": 892
+                    },
+                    "total": {
+                      "type": "integer",
+                      "format": "int32",
+                      "minimum": 0,
+                      "description": "系统中的宠物总数",
+                      "example": 1060
+                    },
+                    "bySpecies": {
+                      "type": "object",
+                      "description": "按物种划分的库存明细",
+                      "additionalProperties": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0
+                      },
+                      "properties": {},
+                      "example": {
+                        "DOG": 523,
+                        "CAT": 387,
+                        "BIRD": 89,
+                        "RABBIT": 45,
+                        "FISH": 16
+                      }
+                    },
+                    "lastUpdatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "库存统计数据上次计算的时间戳 (RFC 3339)",
+                      "example": "2026-01-07T10:30:00Z"
+                    }
+                  },
+                  "unevaluatedProperties": false
+                },
+                "example": {
+                  "available": 145,
+                  "pending": 23,
+                  "adopted": 892,
+                  "total": 1060,
+                  "bySpecies": {
+                    "DOG": 523,
+                    "CAT": 387,
+                    "BIRD": 89,
+                    "RABBIT": 45,
+                    "FISH": 16
+                  },
+                  "lastUpdatedAt": "2026-01-07T10:30:00Z"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "required": false,
+                "description": "库存数据最多可缓存 60 秒",
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=60"
+                }
+              },
+              "ETag": {
+                "required": false,
+                "description": "用于缓存验证的实体标签",
+                "schema": {
+                  "type": "string",
+                  "example": "\"33a64df551425fcc55e4d42a148795d9f25f89d4\""
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-codeSamples": [
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst inventory = await client.store.getInventory();\nconsole.log(`Available: ${inventory.available}`);\nconsole.log(`Pending: ${inventory.pending}`);\nconsole.log(`Adopted: ${inventory.adopted}`);"
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\n\ninventory = client.store.get_inventory()\nprint(f\"Available: {inventory['available']}\")\nprint(f\"Pending: {inventory['pending']}\")\nprint(f\"Adopted: {inventory['adopted']}\")"
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript (Fetch)",
+            "source": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/inventory',\n  {\n    headers: {\n      'Authorization': `Bearer ${accessToken}`\n    }\n  }\n);\n\nconst inventory = await response.json();\nconsole.log(`Available: ${inventory.available}`);\nconsole.log(`Pending: ${inventory.pending}`);\nconsole.log(`Adopted: ${inventory.adopted}`);"
+          },
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "curl -X GET 'https://api.petstoreapi.com/v1/inventory' \\\n  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN'"
+          }
+        ]
+      }
+    },
+    "/inventories": {
+      "get": {
+        "summary": "列出所有库存",
+        "deprecated": false,
+        "description": "返回状态码与数量的映射表。",
+        "operationId": "getInventory",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "用于过滤库存的状态值（逗号分隔）。",
+            "required": false,
+            "example": [
+              "available, pending"
+            ],
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer_token": []
+          }
+        ]
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "创建订单",
+        "deprecated": false,
+        "description": "创建新的宠物领养订单。订单最初将处于 `PLACED` 状态，需要支付后才能继续处理。\n\n**身份验证**：可选（允许匿名订单）",
+        "operationId": "createOrder",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              },
+              "example": {
+                "petId": "019b4132-70aa-764f-b315-e2803d882a24",
+                "userId": "019b4138-e0af-70b9-8f0c-6ea97d495dfa"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": "019b4139-1234-7abc-8def-123456789abc",
+                  "petId": "019b4132-70aa-764f-b315-e2803d882a24",
+                  "userId": "019b4138-e0af-70b9-8f0c-6ea97d495dfa",
+                  "status": "PLACED",
+                  "totalAmount": "150.00",
+                  "currency": "USD",
+                  "createdAt": "2025-12-21T13:56:23Z",
+                  "updatedAt": "2025-12-21T13:56:23Z"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "TypeScript",
+            "label": "TypeScript SDK",
+            "source": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst order = await client.orders.create({\n  petId: '019b4132-70aa-764f-b315-e2803d882a24',\n  userId: '019b4138-e0af-70b9-8f0c-6ea97d495dfa',\n  totalAmount: '150.00',\n  currency: 'USD',\n  status: 'PLACED'\n});\n\nconsole.log(`Order ${order.id} created successfully`);"
+          },
+          {
+            "lang": "Python",
+            "label": "Python",
+            "source": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\n\norder = client.orders.create(\n    petId='019b4132-70aa-764f-b315-e2803d882a24',\n    userId='019b4138-e0af-70b9-8f0c-6ea97d495dfa',\n    totalAmount='150.00',\n    currency='USD',\n    status='PLACED'\n)\n\nprint(f\"Order {order.id} created successfully\")"
+          },
+          {
+            "lang": "JavaScript",
+            "label": "JavaScript (Fetch)",
+            "source": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/orders',\n  {\n    method: 'POST',\n    headers: {\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      petId: '019b4132-70aa-764f-b315-e2803d882a24',\n      userId: '019b4138-e0af-70b9-8f0c-6ea97d495dfa',\n      totalAmount: '150.00',\n      currency: 'USD',\n      status: 'PLACED'\n    })\n  }\n);\n\nconst order = await response.json();\nconsole.log(`Order ${order.id} created successfully`);"
+          },
+          {
+            "lang": "Shell",
+            "label": "cURL",
+            "source": "curl -X POST 'https://api.petstoreapi.com/v1/orders' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"petId\": 90180021,\n    \"quantity\": 1,\n    \"shipDate\": \"2025-08-15\",\n    \"status\": \"placed\"\n  }'"
+          }
+        ]
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "获取订单",
+        "deprecated": false,
+        "description": "检索特定订单的详细信息，包括状态、商品和支付信息。",
+        "operationId": "getOrder",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "id": "019b4139-5678-7def-9012-345678901234",
+                  "petId": "019b4127-54d5-76d9-b626-0d4c7bfce5b6",
+                  "userId": "019b4128-6a6b-777c-9ae8-335e962c68d8",
+                  "status": "APPROVED",
+                  "totalAmount": "225.00",
+                  "currency": "USD",
+                  "createdAt": "2025-11-15T08:30:00Z",
+                  "updatedAt": "2025-12-09T14:20:00Z"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "取消订单",
+        "deprecated": false,
+        "description": "取消现有订单。只有处于 `PLACED` 或 `APPROVED` 状态的订单可以被取消。\n\n**注意**：取消的订单会被标记为 `CANCELLED` 状态，而非直接删除，以便保留订单历史供审计使用。",
+        "operationId": "deleteOrder",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "订单的唯一标识符",
+            "required": true,
+            "example": "019b4139-1234-7abc-8def-123456789abc",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "资源删除成功",
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "回调示例",
+        "deprecated": false,
+        "description": "处理订单事件，并通过回调支持异步处理。",
+        "operationId": "callbackOrder",
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "订单的唯一标识符",
+            "required": true,
+            "example": "019b4139-1234-7abc-8def-123456789abc",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "string",
+                    "description": "The payment amount"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "The payment currency"
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "description": "Operation timestamp"
+                  },
+                  "callbackUrl": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to call back when processing is complete"
+                  }
+                },
+                "required": [
+                  "amount",
+                  "currency",
+                  "timestamp",
+                  "callbackUrl"
+                ]
+              },
+              "example": {
+                "amount": "738.05",
+                "currency": "USD",
+                "timestamp": "1758613403",
+                "callbackUrl": "https://example.com/callbacks/orders/1312312"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "回调已成功入队。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ],
+        "callbacks": {
+          "orderProcessed": {
+            "{$request.body#/callbackUrl}": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "requestId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "orderId": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "COMPLETED",
+                              "FAILED"
+                            ]
+                          },
+                          "result": {
+                            "type": "object"
+                          },
+                          "timestamp": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "requestId",
+                          "orderId",
+                          "status",
+                          "timestamp"
+                        ]
+                      },
+                      "example": {
+                        "requestId": "0d7a3836-956f-453b-b633-94a16e720d60",
+                        "orderId": "1312312",
+                        "status": "completed",
+                        "result": {
+                          "transactionId": "tx_12345",
+                          "processingDetails": {
+                            "processor": "payment-gateway-1",
+                            "approvalCode": "AUTH123456"
+                          }
+                        },
+                        "timestamp": "1758613503"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "Callback received successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{id}/payment": {
+      "post": {
+        "summary": "支付订单",
+        "deprecated": false,
+        "description": "为现有订单处理支付。\n\n## 支付工作流\n\n支付处理遵循以下流程：\n\n1. **创建订单**：首先使用 `POST /orders` 创建订单（状态：`placed`）\n2. **提交支付**：调用此端点并提供支付详情（银行卡或银行账户）\n3. **支付处理中**：支付开始处理，状态变为 `processing`\n4. **支付结果**：\n   - **成功**：支付状态变为 `succeeded`，订单状态更新为 `approved`\n   - **失败**：支付状态变为 `failed`，订单保持 `placed` 状态，可以重试支付\n5. **收据**：支付成功后，从订单详情中检索收据\n\n**安全说明**：敏感支付数据（如 CVC 码）为 `writeOnly`，绝不会在响应中返回。卡号和账号在读取时会被遮掩。",
+        "operationId": "createOrderPayment",
+        "tags": [
+          "Payments"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "订单的唯一标识符",
+            "required": true,
+            "example": "019b4139-1234-7abc-8def-123456789abc",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderPayment"
+              },
+              "examples": {
+                "Card": {
+                  "value": {
+                    "amount": "49.99",
+                    "currency": "GBP",
+                    "source": {
+                      "object": "card",
+                      "name": "J. Doe",
+                      "number": "4242424242424242",
+                      "cvc": "123",
+                      "expMonth": 12,
+                      "expYear": 2025,
+                      "addressLine1": "123 Fake Street",
+                      "addressLine2": "4th Floor",
+                      "addressCity": "London",
+                      "addressCountry": "gb",
+                      "addressPostCode": "N12 9XX"
+                    }
+                  },
+                  "summary": "银行卡支付"
+                },
+                "Bank": {
+                  "value": {
+                    "amount": "100.50",
+                    "currency": "GBP",
+                    "source": {
+                      "object": "bank_account",
+                      "name": "J. Doe",
+                      "number": "00012345",
+                      "sortCode": "000123",
+                      "accountType": "individual",
+                      "bankName": "Starling Bank",
+                      "country": "gb"
+                    }
+                  },
+                  "summary": "银行账户支付"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "支付成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderPayment"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Card Payment",
+                    "value": {
+                      "id": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+                      "amount": "49.99",
+                      "currency": "GBP",
+                      "source": {
+                        "object": "card",
+                        "name": "J. Doe",
+                        "number": "************4242",
+                        "cvc": "123",
+                        "expMonth": 12,
+                        "expYear": 2025,
+                        "addressCountry": "gb",
+                        "addressPostCode": "N12 9XX"
+                      },
+                      "status": "succeeded"
+                    }
+                  },
+                  "2": {
+                    "summary": "Bank Account Payment",
+                    "value": {
+                      "id": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a",
+                      "amount": "100.50",
+                      "currency": "GBP",
+                      "source": {
+                        "object": "bank_account",
+                        "name": "J. Doe",
+                        "accountType": "individual",
+                        "number": "*********2345",
+                        "sortCode": "000123",
+                        "bankName": "Starling Bank",
+                        "country": "gb"
+                      },
+                      "status": "succeeded"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "创建用户",
+        "deprecated": false,
+        "description": "注册新用户账户。返回用户详情和身份验证令牌。\n\n**身份验证**：不需要（公开注册）",
+        "operationId": "createUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "username": "kylekinh",
+                "firstName": "Kyle",
+                "lastName": "Kihn",
+                "email": "kyle.kihn@example.com",
+                "password": "SecurePass123!",
+                "phone": "+18638982053"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "用户创建成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "put": {
+        "summary": "更新用户",
+        "deprecated": false,
+        "description": "更新用户个人资料信息。\n\n**身份验证**：需要（Bearer 令牌）\n**授权**：用户只能更新自己的资料",
+        "operationId": "updateUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "firstName": "Jeffrey",
+                "lastName": "Kris",
+                "email": "jeffrey.kris@example.com",
+                "phone": "+18634063542"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "用户更新成功。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "获取用户",
+        "deprecated": false,
+        "description": "检索特定用户的公开个人资料信息。\n\n**隐私**：除非请求自己的资料，否则仅返回公开字段。",
+        "operationId": "getUserById",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户的唯一标识符",
+            "required": true,
+            "example": "user_abc123xyz",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "019b4138-e0af-70b9-8f0c-6ea97d495dfa",
+                  "username": "ameliehackett",
+                  "firstName": "Amelie",
+                  "lastName": "Hackett",
+                  "email": "amelie.hackett@example.com",
+                  "phone": "+16324377270",
+                  "createdAt": "2025-12-21T13:56:23Z",
+                  "updatedAt": "2025-12-21T13:56:23Z"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "删除用户账户",
+        "deprecated": false,
+        "description": "永久删除用户账户及其所有相关数据。\n\n**身份验证**：需要（Bearer 令牌）\n**授权**：用户只能删除自己的账户\n**注意**：此操作不可逆。",
+        "operationId": "deleteUser",
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "用户的唯一标识符",
+            "required": true,
+            "example": "user_abc123xyz",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "资源删除成功",
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": ""
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/auth/tokens": {
+      "post": {
+        "summary": "创建身份验证令牌",
+        "deprecated": false,
+        "description": "验证用户凭据并获取 API 请求所需的访问令牌。\n\n**身份验证**：不需要（这是登录端点）\n**返回**：有效期为 24 小时的 Bearer 令牌",
+        "operationId": "createToken",
+        "tags": [
+          "User"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "Login username",
+                    "example": "johndoe"
+                  },
+                  "password": {
+                    "type": "string",
+                    "writeOnly": true,
+                    "description": "User password (never returned in responses)",
+                    "example": "securePassword123"
+                  }
+                },
+                "unevaluatedProperties": false
+              },
+              "example": {
+                "username": "kylekinh",
+                "password": "SecurePass123!"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "身份验证令牌"
+                    },
+                    "expiresAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "令牌过期时间"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "RateLimit-Limit": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Remaining": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "RateLimit-Reset": {
+                "required": false,
+                "description": "",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": ""
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity",
+            "description": ""
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/": {
+      "post": {
+        "summary": "GraphQL 示例",
+        "deprecated": false,
+        "description": "### 主要特点\n\n- **免费且公开**：无需 API 密钥或身份验证。\n- **GraphQL Schema**：轻松探索国家、洲和语言之间的关系。\n- **使用场景**：测试 GraphQL 客户端、学习 Schema 导航、构建演示等。\n\n---\n### 使用说明\n在此端点下的“成功”运行环境中，您可以直接向 GraphQL API 发起请求。\n- 查询字段已预先填好。\n- 点击“Schema 已获取”旁的刷新按钮以获取最新 Schema。\n- 点击“发送”即可直接发送请求并接收响应。\n---\n\n### 端点地址\n\n**GraphQL 端点：**\n`\nhttps://countries.trevorblades.com/\n`\n\n---\n\n### 主要 Schema 对象\n\n- **Country (国家)**\n  - 字段：`code` (代码), `name` (名称), `native` (本地名称), `phone` (区号), `continent` (所属洲), `capital` (首都), `currency` (货币), `languages` (语言), `emoji` 等。\n\n- **Continent (洲)**\n  - 字段：`code` (代码), `name` (名称), `countries` (该洲的国家列表)\n\n- **Language (语言)**\n  - 字段：`code` (代码), `name` (名称), `native` (本地名称)\n\n---\n\n### 示例查询\n\n**获取所有国家及其代码和名称：**\n`graphql\n{\n  countries {\n    code\n    name\n  }\n}\n`\n\n**获取单个国家的详情：**\n`graphql\n{\n  country(code: \"JP\") {\n    name\n    capital\n    currency\n    languages {\n      name\n    }\n  }\n}\n`\n\n**列出所有洲及其包含的国家：**\n`graphql\n{\n  continents {\n    name\n    countries {\n      name\n      code\n    }\n  }\n}\n`\n\n---\n\n### 如何使用\n\n- 您可以通过自己的 GraphQL 客户端、curl 访问 API，或在浏览器中访问 [Countries API GraphQL Explorer](https://countries.trevorblades.com/)。\n- 支持自省 (Introspection)，因此您可以在 GraphQL Playground 中直接查看完整的 Schema 和文档。\n\n---\n\n### 常见场景\n\n- **前端原型开发**：用于下拉列表（国家、洲等）。\n- **演示应用**：无需后端即可填充选择输入框。\n- **GraphQL 学习**：练习编写查询并使用真实数据处理关联关系。",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The GraphQL query string."
+                  },
+                  "variables": {
+                    "type": "object",
+                    "description": "GraphQL variables for parameterized queries.",
+                    "additionalProperties": true,
+                    "properties": {},
+                    "nullable": true
+                  }
+                },
+                "required": [
+                  "query"
+                ]
+              },
+              "examples": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "GraphQL 响应成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/.sse": {
+      "post": {
+        "summary": "SSE 示例",
+        "deprecated": false,
+        "description": "当您使用 POST 方法连接到服务器时，系统将自动建立 SSE 连接，服务器将每秒发送一次当前时间。",
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    },
+    "/calculator.asmx": {
+      "post": {
+        "summary": "SOAP 示例",
+        "deprecated": false,
+        "description": "将请求中的两个整数相加并返回结果。该服务由 DneOnline 提供。",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "text/xml",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "soap:Body": {
+                    "type": "object",
+                    "properties": {
+                      "Add": {
+                        "type": "object",
+                        "properties": {
+                          "intA": {
+                            "type": "string"
+                          },
+                          "intB": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "intA",
+                          "intB"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Add"
+                    ]
+                  }
+                },
+                "required": [
+                  "soap:Body"
+                ],
+                "xml": {
+                  "name": "soap:Envelope"
+                }
+              },
+              "example": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soap:Body>\n        <Add xmlns=\"http://tempuri.org/\">\n            <intA>5</intA>\n            <intB>7</intB>\n        </Add>\n    </soap:Body>\n</soap:Envelope>"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "soap:Body": {
+                      "type": "object",
+                      "properties": {
+                        "AddResponse": {
+                          "type": "object",
+                          "properties": {
+                            "AddResult": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "AddResult"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AddResponse"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "soap:Body"
+                  ],
+                  "xml": {
+                    "name": "soap:Envelope"
+                  }
+                },
+                "example": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n    <soap:Body>\n        <AddResponse xmlns=\"http://tempuri.org/\">\n            <AddResult>12</AddResult>\n        </AddResponse>\n    </soap:Body>\n</soap:Envelope>"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "oauth2": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "type": "object",
+        "description": "宠物商店中待领养的动物信息。",
+        "required": [
+          "id",
+          "name",
+          "species",
+          "ageMonths",
+          "price",
+          "currency",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "宠物的唯一标识符 (UUID v7)",
+            "example": "019b4132-70aa-764f-b315-e2803d882a24"
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "DOG",
+              "CAT",
+              "RABBIT",
+              "BIRD",
+              "REPTILE",
+              "OTHER"
+            ],
+            "description": "宠物的物种"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50,
+            "description": "宠物的名字",
+            "example": "Whiskers"
+          },
+          "breed": {
+            "type": "string",
+            "description": "宠物的品种",
+            "example": "Domestic Shorthair"
+          },
+          "ageMonths": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "宠物的月龄",
+            "example": 18
+          },
+          "size": {
+            "type": "string",
+            "enum": [
+              "SMALL",
+              "MEDIUM",
+              "LARGE"
+            ],
+            "description": "宠物的尺寸类别"
+          },
+          "color": {
+            "type": "string",
+            "description": "主色或花纹模式",
+            "example": "Orange Tabby"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "MALE",
+              "FEMALE",
+              "UNKNOWN"
+            ],
+            "description": "宠物的性别"
+          },
+          "goodWithKids": {
+            "type": "boolean",
+            "description": "宠物是否适宜与儿童相处"
+          },
+          "price": {
+            "type": "string",
+            "description": "领养费金额",
+            "example": "75.00"
+          },
+          "currency": {
+            "type": "string",
+            "description": "领养费的货币代码 (ISO 4217)",
+            "default": "USD",
+            "pattern": "^[A-Z]{3}$",
+            "example": "USD"
+          },
+          "description": {
+            "type": "string",
+            "description": "关于宠物性格和特质的详细描述"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "AVAILABLE",
+              "PENDING",
+              "ADOPTED",
+              "NOT_AVAILABLE"
+            ],
+            "description": "当前的领养状态"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "宠物记录创建时的时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "宠物记录上次更新时的时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "用于数据隔离的可选租户标识符。存在时表示该宠物属于特定租户。若为 null 或省略，则表示该宠物属于共享/公共数据池。",
+            "nullable": true,
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "photos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "宠物照片的 URL 列表",
+            "minItems": 0
+          },
+          "medicalInfo": {
+            "type": "object",
+            "properties": {
+              "spayedNeutered": {
+                "type": "boolean",
+                "description": "宠物是否已绝育"
+              },
+              "vaccinated": {
+                "type": "boolean",
+                "description": "宠物的疫苗接种是否已是最新"
+              },
+              "microchipped": {
+                "type": "boolean",
+                "description": "宠物是否植入微芯片"
+              },
+              "specialNeeds": {
+                "type": "boolean",
+                "description": "宠物是否有特殊的医疗需求"
+              },
+              "healthNotes": {
+                "type": "string",
+                "description": "额外的医疗备注"
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "User": {
+        "type": "object",
+        "description": "用户账户信息",
+        "required": [
+          "id",
+          "username",
+          "email",
+          "firstName",
+          "lastName",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "用户唯一标识符 (UUID v7)",
+            "example": "019b4138-e0af-70b9-8f0c-6ea97d495dfa"
+          },
+          "username": {
+            "type": "string",
+            "description": "用于登录的唯一用户名",
+            "minLength": 3,
+            "maxLength": 50,
+            "example": "johndoe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "用户邮箱地址",
+            "example": "user@example.com"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "用户的名",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "用户的姓",
+            "example": "Doe"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^\\+?[1-9]\\d{1,14}$",
+            "description": "E.164 格式的电话号码",
+            "example": "+12025551234"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "账户创建时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "账户上次更新时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "用于数据隔离的可选租户标识符。存在时表示该用户属于特定租户。若为 null 或省略，则表示该用户属于共享/公共数据池。",
+            "nullable": true,
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "newsletter": {
+                "type": "boolean",
+                "description": "是否接收时事通讯邮件"
+              },
+              "notifications": {
+                "type": "boolean",
+                "description": "是否接收通知邮件"
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "PetCollection": {
+        "type": "object",
+        "description": "带分页功能的宠物集合",
+        "required": [
+          "data",
+          "pagination"
+        ],
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pet"
+            }
+          },
+          "pagination": {
+            "type": "object",
+            "required": [
+              "page",
+              "limit",
+              "totalItems",
+              "totalPages"
+            ],
+            "properties": {
+              "page": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "当前页码"
+              },
+              "limit": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "每页条目数"
+              },
+              "totalItems": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "总条目数"
+              },
+              "totalPages": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "总页数"
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "OrderPayment": {
+        "description": "带多态支付源的订单支付信息",
+        "type": "object",
+        "required": [
+          "id",
+          "amount",
+          "currency",
+          "source",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "description": "唯一支付标识符",
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "example": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a"
+          },
+          "amount": {
+            "description": "支付金额（正数小数）",
+            "type": "string",
+            "example": "49.99"
+          },
+          "currency": {
+            "description": "三位大写 ISO 4217 货币代码",
+            "type": "string",
+            "enum": [
+              "USD",
+              "EUR",
+              "GBP",
+              "CAD",
+              "AUD"
+            ],
+            "default": "USD"
+          },
+          "source": {
+            "description": "支付来源（银行卡或银行账户）",
+            "discriminator": {
+              "propertyName": "object",
+              "mapping": {
+                "card": "#/components/schemas/CardPaymentSource",
+                "bankAccount": "#/components/schemas/BankAccountPaymentSource"
+              }
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CardPaymentSource"
+              },
+              {
+                "$ref": "#/components/schemas/BankAccountPaymentSource"
+              }
+            ]
+          },
+          "status": {
+            "description": "支付状态",
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PROCESSING",
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED"
+            ],
+            "readOnly": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "支付创建时间戳"
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "CardPaymentSource": {
+        "type": "object",
+        "title": "Bank Card",
+        "description": "借记卡或信用卡支付源",
+        "externalDocs": {
+          "description": "Payment Security Best Practices and PCI Compliance Guide",
+          "url": "https://petstoreapi.com/docs/payments/security"
+        },
+        "required": [
+          "object",
+          "name",
+          "number",
+          "expMonth",
+          "expYear"
+        ],
+        "properties": {
+          "object": {
+            "type": "string",
+            "const": "card",
+            "description": "银行卡支付的鉴别值"
+          },
+          "name": {
+            "type": "string",
+            "description": "持卡人姓名",
+            "example": "Jane Doe"
+          },
+          "number": {
+            "type": "string",
+            "description": "卡号（读取时会被遮掩）",
+            "pattern": "^[0-9*]{13,19}$",
+            "example": "4242424242424242"
+          },
+          "cvc": {
+            "type": "string",
+            "description": "卡安全码 (CVC)",
+            "pattern": "^[0-9]{3,4}$",
+            "writeOnly": true
+          },
+          "expMonth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "description": "有效期月份 (1-12)"
+          },
+          "expYear": {
+            "type": "integer",
+            "minimum": 2024,
+            "description": "有效期年份 (4 位数字)"
+          },
+          "brand": {
+            "type": "string",
+            "enum": [
+              "VISA",
+              "MASTERCARD",
+              "AMEX",
+              "DISCOVER",
+              "DINERS",
+              "JCB",
+              "UNIONPAY"
+            ],
+            "readOnly": true,
+            "description": "卡品牌"
+          },
+          "last4": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$",
+            "readOnly": true,
+            "description": "卡号末 4 位"
+          },
+          "billingAddress": {
+            "type": "object",
+            "properties": {
+              "line1": {
+                "type": "string",
+                "writeOnly": true
+              },
+              "line2": {
+                "type": "string",
+                "writeOnly": true
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "postalCode": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$",
+                "description": "ISO 3166-1 alpha-2 country code"
+              }
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "Order": {
+        "type": "object",
+        "description": "宠物商店订单详情",
+        "required": [
+          "id",
+          "petId",
+          "userId",
+          "status",
+          "totalAmount",
+          "currency",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "订单唯一标识符 (UUID v7)",
+            "example": "019b4139-1234-7abc-8def-123456789abc"
+          },
+          "petId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "被订购宠物的 ID",
+            "example": "019b4132-70aa-764f-b315-e2803d882a24"
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "下单用户的 ID",
+            "example": "019b4138-e0af-70b9-8f0c-6ea97d495dfa"
+          },
+          "status": {
+            "type": "string",
+            "description": "订单状态",
+            "enum": [
+              "PLACED",
+              "APPROVED",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ],
+            "example": "PLACED"
+          },
+          "totalAmount": {
+            "type": "string",
+            "description": "订单总金额",
+            "example": "125.50"
+          },
+          "currency": {
+            "type": "string",
+            "description": "订单金额的货币代码 (ISO 4217)",
+            "default": "USD",
+            "pattern": "^[A-Z]{3}$",
+            "example": "USD"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "订单创建时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "订单上次更新时间戳 (RFC 3339)",
+            "example": "2025-12-21T13:56:23Z"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "description": "用于数据隔离的可选租户标识符。存在时表示该订单属于特定租户。若为 null 或省略，则表示该订单属于共享/公共数据池。",
+            "nullable": true,
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "BankAccountPaymentSource": {
+        "type": "object",
+        "title": "Bank Account",
+        "description": "银行账户支付源",
+        "externalDocs": {
+          "description": "ACH Payment Processing and Bank Account Verification",
+          "url": "https://petstoreapi.com/docs/payments/ach-guide"
+        },
+        "required": [
+          "object",
+          "accountHolderName",
+          "accountNumber",
+          "routingNumber",
+          "accountType"
+        ],
+        "properties": {
+          "object": {
+            "type": "string",
+            "const": "bank_account",
+            "description": "银行账户支付的鉴别值"
+          },
+          "accountHolderName": {
+            "type": "string",
+            "description": "账户持有者姓名"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "银行账号（读取时会被遮掩）",
+            "pattern": "^[0-9*]{4,17}$"
+          },
+          "routingNumber": {
+            "type": "string",
+            "description": "银行路径号码 (Routing Number)",
+            "pattern": "^[0-9]{9}$"
+          },
+          "accountType": {
+            "type": "string",
+            "enum": [
+              "CHECKING",
+              "SAVINGS"
+            ],
+            "description": "银行账户类型"
+          },
+          "bankName": {
+            "type": "string",
+            "readOnly": true,
+            "description": "银行名称"
+          },
+          "last4": {
+            "type": "string",
+            "pattern": "^[0-9]{4}$",
+            "readOnly": true,
+            "description": "账号末 4 位"
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "ApiResponse": {
+        "type": "object",
+        "description": "通用 API 响应",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "人类可读的消息"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "操作是否成功"
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "Error": {
+        "type": "object",
+        "description": "针对 HTTP API 的 RFC 9457 问题详情",
+        "required": [
+          "type",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "description": "标识问题类型的 URI 引用",
+            "example": "https://petstoreapi.com/errors/not-found"
+          },
+          "title": {
+            "type": "string",
+            "description": "该问题的简短人类可读摘要",
+            "example": "Resource Not Found"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP 状态码",
+            "example": 404
+          },
+          "detail": {
+            "type": "string",
+            "description": "针对此次发生的具体人类可读说明",
+            "example": "The requested pet with ID '123' was not found"
+          },
+          "instance": {
+            "type": "string",
+            "format": "uri",
+            "description": "标识该具体发生情况的 URI 引用",
+            "example": "/v1/pets/123"
+          },
+          "errors": {
+            "type": "array",
+            "description": "详细的验证错误信息（适用于 422 响应）",
+            "items": {
+              "type": "object",
+              "required": [
+                "field",
+                "message"
+              ],
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "description": "验证失败的字段"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "验证错误的描述"
+                },
+                "code": {
+                  "type": "string",
+                  "description": "机器可读的错误代码"
+                }
+              },
+              "unevaluatedProperties": false
+            }
+          }
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "invalid-parameter": {
+                "summary": "invalid-parameter",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/bad-request",
+                  "title": "Bad Request",
+                  "status": 400,
+                  "detail": "Invalid value for parameter 'status'. Must be one of: available, pending, sold.",
+                  "instance": "/pets"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "missing-token": {
+                "summary": "missing-token",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/unauthorized",
+                  "title": "Unauthorized",
+                  "status": 401,
+                  "detail": "Authentication is required to access this resource. Please provide a valid OAuth 2.0 token."
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "insufficient-permissions": {
+                "summary": "insufficient-permissions",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/forbidden",
+                  "title": "Forbidden",
+                  "status": 403,
+                  "detail": "You do not have permission to access this resource."
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "pet-not-found": {
+                "summary": "pet-not-found",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/not-found",
+                  "title": "Not Found",
+                  "status": 404,
+                  "detail": "The requested pet with ID '123' was not found.",
+                  "instance": "/pets/123"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "rate-limit-exceeded": {
+                "summary": "rate-limit-exceeded",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/rate-limit-exceeded",
+                  "title": "Too Many Requests",
+                  "status": 429,
+                  "detail": "Rate limit exceeded. Please wait 60 seconds before making another request."
+                }
+              }
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "server-error": {
+                "summary": "server-error",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/internal-server-error",
+                  "title": "Internal Server Error",
+                  "status": 500,
+                  "detail": "An unexpected error occurred. Please try again later."
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "validation-errors": {
+                "summary": "validation-errors",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/validation-error",
+                  "title": "Validation Error",
+                  "status": 422,
+                  "detail": "The request body contains validation errors.",
+                  "instance": "/pets",
+                  "errors": [
+                    {
+                      "field": "name",
+                      "message": "Pet name is required",
+                      "code": "required_field"
+                    },
+                    {
+                      "field": "status",
+                      "message": "Invalid status value",
+                      "code": "invalid_format"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "MethodNotAllowed": {
+        "description": "",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "method-not-allowed": {
+                "summary": "method-not-allowed",
+                "value": {
+                  "type": "https://petstoreapi.com/errors/method-not-allowed",
+                  "title": "Method Not Allowed",
+                  "status": 405,
+                  "detail": "The TRACE method is not allowed for this resource",
+                  "instance": "/pets/019b4132-70aa-764f-b315-e2803d882a24"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearer_token": {
+        "scheme": "bearer",
+        "type": "http"
+      },
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
+            "scopes": {
+              "read:pets": "read your pets",
+              "write:pets": "modify pets in your account"
+            }
+          }
+        }
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authorization with multiple flows including device authorization for IoT devices and smart TVs",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://auth.petstoreapi.com/authorize",
+            "tokenUrl": "https://auth.petstoreapi.com/token",
+            "refreshUrl": "https://auth.petstoreapi.com/refresh",
+            "scopes": {
+              "read:pets": "Read pet information",
+              "write:pets": "Create and update pets",
+              "read:orders": "Read order information",
+              "write:orders": "Create and manage orders",
+              "read:user": "Read user profile",
+              "write:user": "Update user profile",
+              "chat:write": "Access AI chat completions"
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Bearer token authentication using JWT (JSON Web Token). Include the token in the Authorization header as: `Authorization: Bearer <token>`"
+      }
+    }
+  },
+  "servers": [],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "oauth2": []
+    }
+  ]
+}
