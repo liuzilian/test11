@@ -148,10 +148,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       },
@@ -205,10 +202,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       }
@@ -260,10 +254,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       },
@@ -389,10 +380,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       }
@@ -471,10 +459,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "petstore_auth": []
           }
         ]
       }
@@ -1657,24 +1642,6 @@
           }
         }
       },
-      "Category": {
-        "type": "object",
-        "description": "宠物所属分类。",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "description": "类别唯一 ID。"
-          },
-          "name": {
-            "type": "string",
-            "description": "类别名称。"
-          }
-        },
-        "xml": {
-          "name": "Category"
-        }
-      },
       "Links-Order": {
         "description": "订单资源链接。",
         "type": "object",
@@ -1746,6 +1713,24 @@
             "type": "string",
             "description": "响应的人类可读信息。"
           }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "description": "宠物所属分类。",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "类别唯一 ID。"
+          },
+          "name": {
+            "type": "string",
+            "description": "类别名称。"
+          }
+        },
+        "xml": {
+          "name": "Category"
         }
       },
       "Tag": {
