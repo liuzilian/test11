@@ -89,8 +89,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/M2-schema1"
-              },
-              "examples": {}
+              }
             }
           }
         },
@@ -122,8 +121,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Tag"
-              },
-              "examples": {}
+              }
             }
           }
         },
@@ -304,6 +302,10 @@
                   "name",
                   "status"
                 ]
+              },
+              "example": {
+                "name": "Hello Kitty",
+                "status": "sold"
               }
             }
           }
