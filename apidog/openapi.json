@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "商店 API",
-    "description": "管理宠物商店中的宠物、订单、购买、用户及其他操作。",
+    "title": "Store API",
+    "description": "Manage pets, orders, purchases, users, and other operations in the pet shop.",
     "version": "1.0.0"
   },
   "tags": [
@@ -28,9 +28,9 @@
   "paths": {
     "/pets": {
       "get": {
-        "summary": "列出宠物",
+        "summary": "List Pets",
         "deprecated": false,
-        "description": "检索待领养宠物的分页列表，支持可选过滤。",
+        "description": "Retrieve a paginated list of pets available for adoption with optional filtering.",
         "operationId": "listPets",
         "tags": [
           "Pet"
@@ -39,7 +39,7 @@
           {
             "name": "species",
             "in": "query",
-            "description": "按宠物物种过滤",
+            "description": "Filter by pet species",
             "required": false,
             "schema": {
               "type": "string",
@@ -56,7 +56,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "按领养状态过滤",
+            "description": "Filter by adoption status",
             "required": false,
             "schema": {
               "type": "string",
@@ -71,7 +71,7 @@
           {
             "name": "ageMin",
             "in": "query",
-            "description": "最小月龄",
+            "description": "Minimum age in months",
             "required": false,
             "schema": {
               "type": "integer",
@@ -81,7 +81,7 @@
           {
             "name": "ageMax",
             "in": "query",
-            "description": "最大月龄",
+            "description": "Maximum age in months",
             "required": false,
             "schema": {
               "type": "integer",
@@ -91,7 +91,7 @@
           {
             "name": "size",
             "in": "query",
-            "description": "按宠物尺寸过滤",
+            "description": "Filter by pet size",
             "required": false,
             "schema": {
               "type": "string",
@@ -105,7 +105,7 @@
           {
             "name": "goodWithKids",
             "in": "query",
-            "description": "过滤适宜儿童的宠物",
+            "description": "Filter pets that are good with children",
             "required": false,
             "schema": {
               "type": "boolean"
@@ -114,7 +114,7 @@
           {
             "name": "page",
             "in": "query",
-            "description": "分页页码",
+            "description": "Page number for pagination",
             "required": false,
             "schema": {
               "type": "integer",
@@ -125,7 +125,7 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "每页条目数",
+            "description": "Number of items per page",
             "required": false,
             "schema": {
               "type": "integer",
@@ -137,7 +137,7 @@
         ],
         "responses": {
           "200": {
-            "description": "宠物集合获取成功",
+            "description": "Successful response with pet collection",
             "content": {
               "application/json": {
                 "schema": {
@@ -257,9 +257,9 @@
         ]
       },
       "post": {
-        "summary": "创建宠物",
+        "summary": "Create Pet",
         "deprecated": false,
-        "description": "向商店目录添加一只新宠物，使其处于待领养状态。\n\n## 宠物生命周期工作流\n\n当新宠物进入系统时：\n\n1. **登记**：工作人员通过此端点创建宠物记录（状态：`available`）\n2. **档案**：宠物详情包括物种、品种、年龄、医疗信息、照片和领养费\n3. **搜索**：宠物会出现在搜索结果和列表中\n4. **领养申请**：潜在领养人可以通过领养端点提出申请\n5. **领养完成**：一旦批准，宠物状态变为 `adopted`\n6. **后续**：宠物记录将被保留用于历史审计\n\n**权限**：此操作需要工作人员权限（`write:pets` 作用域或有效的 Bearer 令牌）。仅经过身份验证的工作人员可以向系统添加宠物。",
+        "description": "Add a new pet to the store catalog, making it available for adoption.\n\n## Pet Lifecycle Workflow\n\nWhen a new pet enters the system:\n\n1. **Intake**: Staff creates a pet record with this endpoint (status: `available`)\n2. **Profile**: Pet details include species, breed, age, medical info, photos, and adoption fee\n3. **Discovery**: Pet appears in search results and listings\n4. **Adoption Application**: Potential adopters can apply through the adoption endpoints\n5. **Adoption**: Once approved, pet status changes to `adopted`\n6. **Post-Adoption**: Pet record is retained for historical purposes\n\n**Access**: This operation requires staff permissions (`write:pets` scope or valid Bearer token). Only authenticated staff members can add pets to the system.",
         "operationId": "createPet",
         "tags": [
           "Pet"
@@ -298,7 +298,7 @@
         },
         "responses": {
           "201": {
-            "description": "宠物创建成功",
+            "description": "Pet created successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -395,9 +395,9 @@
     },
     "/pets/{id}": {
       "get": {
-        "summary": "获取宠物",
+        "summary": "Get Pet",
         "deprecated": false,
-        "description": "检索特定宠物的详细信息。",
+        "description": "Retrieve detailed information about a specific pet.",
         "operationId": "getPet",
         "tags": [
           "Pet"
@@ -416,7 +416,7 @@
         ],
         "responses": {
           "200": {
-            "description": "宠物详情获取成功",
+            "description": "Successful response with pet details",
             "content": {
               "application/json": {
                 "schema": {
@@ -534,9 +534,9 @@
         ]
       },
       "put": {
-        "summary": "更新宠物",
+        "summary": "Update Pet",
         "deprecated": false,
-        "description": "更新目录中现有宠物的信息。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌",
+        "description": "Update information for an existing pet in the catalog.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n",
         "operationId": "updatePet",
         "tags": [
           "Pet"
@@ -568,7 +568,7 @@
         },
         "responses": {
           "200": {
-            "description": "宠物更新成功",
+            "description": "Pet updated successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -637,9 +637,9 @@
         ]
       },
       "delete": {
-        "summary": "删除宠物",
+        "summary": "Delete Pet",
         "deprecated": false,
-        "description": "从系统中永久移除一只宠物。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌\n**注意**：此操作不可逆。请考虑将宠物状态更新为 `NOT_AVAILABLE` 以代替删除。",
+        "description": "Remove a pet from the system permanently.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n**Note**: This operation is irreversible. Consider updating the pet status to NOT_AVAILABLE instead.\n",
         "operationId": "deletePet",
         "tags": [
           "Pet"
@@ -658,7 +658,7 @@
         ],
         "responses": {
           "204": {
-            "description": "宠物删除成功",
+            "description": "Pet deleted successfully",
             "headers": {}
           },
           "400": {
@@ -700,9 +700,9 @@
     },
     "/pets/{id}/images": {
       "post": {
-        "summary": "上传宠物图片",
+        "summary": "Upload Pet Image",
         "deprecated": false,
-        "description": "为指定宠物上传照片。支持 JPEG、PNG 和 WebP 格式，最大支持 5MB。\n\n**身份验证**：需要 `write:pets` 作用域或 Bearer 令牌",
+        "description": "Upload a photo for the specified pet. Supports JPEG, PNG, and WebP formats up to 5MB.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n",
         "operationId": "uploadPetPhoto",
         "tags": [
           "Pet"
@@ -711,7 +711,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "宠物的唯一标识符",
+            "description": "Unique identifier for the pet",
             "required": true,
             "example": "01936c8f-1234-7000-8000-111111111111",
             "schema": {
@@ -738,13 +738,17 @@
                     "example": ""
                   }
                 }
+              },
+              "example": {
+                "additionalMetadata": "",
+                "file": ""
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "操作成功",
+            "description": "Operation successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -782,9 +786,9 @@
     },
     "/chat/completions": {
       "post": {
-        "summary": "宠物护理 AI 咨询",
+        "summary": "Pet Care AI Consultation",
         "deprecated": false,
-        "description": "AI 驱动的宠物护理咨询服务，用于解答宠物护理问题并提供建议。该端点通过智能对话界面提供有关宠物健康、行为、营养、训练和日常护理的专家指导。支持使用服务器发送事件 (SSE) 的流式响应以实现实时交互。\n\n## OpenAI API 兼容性\n\n该端点遵循 **OpenAI Chat Completions API 规范**，这已成为聊天 AI 交互的业界标准。通过保持与 OpenAI API 设计的兼容性，该端点确保了：\n- 与现有 OpenAI 兼容的 SDK 和工具无缝集成\n- 为已使用 OpenAI API 的开发者提供熟悉的开发体验\n- 为构建在 OpenAI 平台上的应用提供便捷的迁移路径\n\n**注意**：为了保持完全的 OpenAI 兼容性，某些字段名称（例如 `created` 而非 `createdAt`）会有意地与本 API 的命名约定不同。\n\n## 宠物护理专家 AI\n\n我们的 AI 咨询服务帮助宠物主解决以下问题：\n- **健康与福祉**：症状评估、疫苗接种计划、预防性护理建议\n- **营养**：饮食建议、喂食时间表、食物过敏和敏感性\n- **行为与训练**：行为问题、训练技巧、社交化提示\n- **品种信息**：特定品种的护理要求、习性、兼容性\n- **领养指导**：选择合适的宠物、新宠物准备工作、领养流程\n- **紧急情况指导**：急救建议、何时看兽医、紧急护理情况\n\n**免责声明**：此 AI 仅提供一般性指导，不能替代专业的兽医护理。请务必咨询持有执照的兽医进行医疗诊断和治疗。\n\n## 流模式 (Streaming)\n\n当 `stream: true` 时，响应将作为服务器发送事件 (SSE) 发送，每个令牌增量传递。这为较长的响应提供了更好的用户体验。\n\n### 流格式\n\n每个数据块发送格式为：\n`\ndata: {\"id\":\"chatcmpl_abc\",\"object\":\"chat.completion.chunk\",\"choices\":[{\"delta\":{\"content\":\"你好\"},\"index\":0}]}\n\n`\n\n流结束标志：\n`\ndata: [DONE]\n\n`\n\n## 非流模式\n\n当 `stream: false` 或省略时，返回完整的响应对象。",
+        "description": "AI-powered consultation service for pet care questions and advice. This endpoint provides expert guidance on pet health, behavior, nutrition, training, and general care through an intelligent conversational interface. Supports streaming responses using Server-Sent Events (SSE) for real-time interaction.\n\n## OpenAI API Compatibility\n\nThis endpoint follows the **OpenAI Chat Completions API specification**, which has become the de facto industry standard for chat-based AI interactions. By maintaining compatibility with OpenAI's API design, this endpoint ensures:\n- Seamless integration with existing OpenAI-compatible SDKs and tools\n- Familiar developer experience for those already using OpenAI APIs\n- Easy migration path for applications built on OpenAI's platform\n\n**Note**: Some field names (e.g., `created` instead of `createdAt`) intentionally differ from this API's naming conventions to maintain full OpenAI compatibility.\n\n## Pet Care Expert AI\n\nOur AI consultation service helps pet owners with:\n- **Health & Wellness**: Symptom assessment, vaccination schedules, preventive care advice\n- **Nutrition**: Diet recommendations, feeding schedules, food allergies and sensitivities\n- **Behavior & Training**: Behavioral issues, training techniques, socialization tips\n- **Breed Information**: Breed-specific care requirements, temperament, compatibility\n- **Adoption Guidance**: Choosing the right pet, preparation for new pets, adoption process\n- **Emergency Guidance**: First aid advice, when to see a vet, urgent care situations\n\n**Disclaimer**: This AI provides general guidance only and does not replace professional veterinary care. Always consult a licensed veterinarian for medical diagnosis and treatment.\n\n## Streaming Mode\n\nWhen `stream: true`, the response is sent as Server-Sent Events (SSE), with each token delivered incrementally. This provides a better user experience for longer responses.\n\n### Stream Format\n\nEach chunk is sent as:\n```\ndata: {\"id\":\"chatcmpl_abc\",\"object\":\"chat.completion.chunk\",\"choices\":[{\"delta\":{\"content\":\"Hello\"},\"index\":0}]}\n\n```\n\nThe stream ends with:\n```\ndata: [DONE]\n\n```\n\n## Non-Streaming Mode\n\nWhen `stream: false` or omitted, returns a complete response object.",
         "operationId": "createChatCompletion",
         "tags": [
           "Chat"
@@ -869,7 +873,7 @@
                     "model": "pet-advisor-1",
                     "stream": false
                   },
-                  "summary": "宠物健康咨询"
+                  "summary": "Pet health consultation"
                 },
                 "pet-nutrition-advice": {
                   "value": {
@@ -882,7 +886,7 @@
                     "model": "pet-advisor-1",
                     "stream": false
                   },
-                  "summary": "宠物营养咨询"
+                  "summary": "Pet nutrition consultation"
                 },
                 "streaming-conversation": {
                   "value": {
@@ -908,7 +912,7 @@
                     "stream": true,
                     "temperature": 0.7
                   },
-                  "summary": "流式多轮对话"
+                  "summary": "Streaming multi-turn conversation"
                 }
               }
             }
@@ -917,7 +921,7 @@
         },
         "responses": {
           "201": {
-            "description": "响应成功。格式取决于 `stream` 参数。",
+            "description": "Successful response. Format depends on the `stream` parameter.",
             "content": {
               "application/json": {
                 "schema": {
@@ -926,7 +930,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "description": "该次补全任务的唯一标识符",
+                      "description": "Unique identifier for the completion",
                       "pattern": "^chatcmpl_[a-z0-9]+$"
                     },
                     "object": {
@@ -935,11 +939,11 @@
                     },
                     "created": {
                       "type": "integer",
-                      "description": "补全任务创建时的 Unix 时间戳（为了 OpenAI 兼容性：使用 'created' 而非 'createdAt'）"
+                      "description": "Unix timestamp of when the completion was created (OpenAI API compatibility: uses 'created' instead of 'createdAt')"
                     },
                     "model": {
                       "type": "string",
-                      "description": "用于补全的模型"
+                      "description": "Model used for completion"
                     },
                     "choices": {
                       "type": "array",
@@ -1019,7 +1023,7 @@
             "headers": {
               "Content-Type": {
                 "required": false,
-                "description": "响应内容类型",
+                "description": "Response content type",
                 "schema": {
                   "type": "string",
                   "enum": [
@@ -1088,9 +1092,9 @@
     },
     "/inventory": {
       "get": {
-        "summary": "获取商店库存",
+        "summary": "Get Store Inventory",
         "deprecated": false,
-        "description": "返回商店中所有宠物的汇总库存统计数据。\n\n**注意**：该端点使用单数名词，因为 \"inventory\" 是一个集合名词（不可数），代表汇总统计数据，而不是可数资源的集合。\n类似端点：`/dashboard`、`/summary`、`/analytics`。",
+        "description": "Returns aggregated inventory statistics across all pets in the store.\n\n**Note**: This endpoint correctly uses a singular noun because \"inventory\" is a mass noun\n(uncountable) representing aggregated statistics, not a collection of countable resources.\nSimilar endpoints: `/dashboard`, `/summary`, `/analytics`.\n",
         "operationId": "getStoreInventory",
         "tags": [
           "Store"
@@ -1098,7 +1102,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "操作成功",
+            "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -1114,33 +1118,33 @@
                       "type": "integer",
                       "format": "int32",
                       "minimum": 0,
-                      "description": "待领养宠物的数量",
+                      "description": "Number of pets available for adoption",
                       "example": 145
                     },
                     "pending": {
                       "type": "integer",
                       "format": "int32",
                       "minimum": 0,
-                      "description": "领养申请处理中的宠物数量",
+                      "description": "Number of pets with pending adoption applications",
                       "example": 23
                     },
                     "adopted": {
                       "type": "integer",
                       "format": "int32",
                       "minimum": 0,
-                      "description": "已被领养的宠物数量",
+                      "description": "Number of pets that have been adopted",
                       "example": 892
                     },
                     "total": {
                       "type": "integer",
                       "format": "int32",
                       "minimum": 0,
-                      "description": "系统中的宠物总数",
+                      "description": "Total number of pets in the system",
                       "example": 1060
                     },
                     "bySpecies": {
                       "type": "object",
-                      "description": "按物种划分的库存明细",
+                      "description": "Breakdown of inventory by species",
                       "additionalProperties": {
                         "type": "integer",
                         "format": "int32",
@@ -1158,7 +1162,7 @@
                     "lastUpdatedAt": {
                       "type": "string",
                       "format": "date-time",
-                      "description": "库存统计数据上次计算的时间戳 (RFC 3339)",
+                      "description": "Timestamp when the inventory statistics were last calculated (RFC 3339)",
                       "example": "2026-01-07T10:30:00Z"
                     }
                   },
@@ -1183,7 +1187,7 @@
             "headers": {
               "Cache-Control": {
                 "required": false,
-                "description": "库存数据最多可缓存 60 秒",
+                "description": "Inventory data can be cached for up to 60 seconds",
                 "schema": {
                   "type": "string",
                   "example": "max-age=60"
@@ -1191,7 +1195,7 @@
               },
               "ETag": {
                 "required": false,
-                "description": "用于缓存验证的实体标签",
+                "description": "Entity tag for cache validation",
                 "schema": {
                   "type": "string",
                   "example": "\"33a64df551425fcc55e4d42a148795d9f25f89d4\""
@@ -1235,9 +1239,9 @@
     },
     "/inventories": {
       "get": {
-        "summary": "列出所有库存",
+        "summary": "List all inventories",
         "deprecated": false,
-        "description": "返回状态码与数量的映射表。",
+        "description": "Returns a map of status codes to quantities.",
         "operationId": "getInventory",
         "tags": [
           "Store"
@@ -1246,7 +1250,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "用于过滤库存的状态值（逗号分隔）。",
+            "description": "Status values to filter inventory by (comma separated).",
             "required": false,
             "example": [
               "available, pending"
@@ -1261,7 +1265,7 @@
         ],
         "responses": {
           "200": {
-            "description": "操作成功",
+            "description": "successful operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -1310,9 +1314,9 @@
     },
     "/orders": {
       "post": {
-        "summary": "创建订单",
+        "summary": "Create Order",
         "deprecated": false,
-        "description": "创建新的宠物领养订单。订单最初将处于 `PLACED` 状态，需要支付后才能继续处理。\n\n**身份验证**：可选（允许匿名订单）",
+        "description": "Create a new order for pet adoption. The order will be in PLACED status initially\nand requires payment to proceed.\n\n**Authentication**: Optional (anonymous orders allowed)\n",
         "operationId": "createOrder",
         "tags": [
           "Store"
@@ -1333,7 +1337,7 @@
         },
         "responses": {
           "201": {
-            "description": "操作成功",
+            "description": "Operation successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -1416,9 +1420,9 @@
     },
     "/orders/{id}": {
       "get": {
-        "summary": "获取订单",
+        "summary": "Get Order",
         "deprecated": false,
-        "description": "检索特定订单的详细信息，包括状态、商品和支付信息。",
+        "description": "Retrieve detailed information about a specific order, including status, items,\nand payment information.\n",
         "operationId": "getOrder",
         "tags": [
           "Store"
@@ -1437,7 +1441,7 @@
         ],
         "responses": {
           "200": {
-            "description": "操作成功",
+            "description": "Operation successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -1492,9 +1496,9 @@
         ]
       },
       "delete": {
-        "summary": "取消订单",
+        "summary": "Cancel Order",
         "deprecated": false,
-        "description": "取消现有订单。只有处于 `PLACED` 或 `APPROVED` 状态的订单可以被取消。\n\n**注意**：取消的订单会被标记为 `CANCELLED` 状态，而非直接删除，以便保留订单历史供审计使用。",
+        "description": "Cancel an existing order. Only orders in PLACED or APPROVED status can be cancelled.\n\n**Note**: Cancelled orders are marked with CANCELLED status rather than being deleted,\npreserving the order history for audit purposes.\n",
         "operationId": "deleteOrder",
         "tags": [
           "Store"
@@ -1503,7 +1507,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "订单的唯一标识符",
+            "description": "Unique identifier for the order",
             "required": true,
             "example": "019b4139-1234-7abc-8def-123456789abc",
             "schema": {
@@ -1514,7 +1518,7 @@
         ],
         "responses": {
           "204": {
-            "description": "资源删除成功",
+            "description": "Resource deleted successfully",
             "headers": {}
           },
           "400": {
@@ -1552,9 +1556,9 @@
         ]
       },
       "post": {
-        "summary": "回调示例",
+        "summary": "Callback Example",
         "deprecated": false,
-        "description": "处理订单事件，并通过回调支持异步处理。",
+        "description": "Handles order events and supports asynchronous processing with Callback.",
         "operationId": "callbackOrder",
         "tags": [
           "Store"
@@ -1563,7 +1567,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "订单的唯一标识符",
+            "description": "Unique identifier for the order",
             "required": true,
             "example": "019b4139-1234-7abc-8def-123456789abc",
             "schema": {
@@ -1614,7 +1618,7 @@
         },
         "responses": {
           "201": {
-            "description": "回调已成功入队。",
+            "description": "Callback enqueued successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1709,9 +1713,9 @@
     },
     "/orders/{id}/payment": {
       "post": {
-        "summary": "支付订单",
+        "summary": "Pay Order",
         "deprecated": false,
-        "description": "为现有订单处理支付。\n\n## 支付工作流\n\n支付处理遵循以下流程：\n\n1. **创建订单**：首先使用 `POST /orders` 创建订单（状态：`placed`）\n2. **提交支付**：调用此端点并提供支付详情（银行卡或银行账户）\n3. **支付处理中**：支付开始处理，状态变为 `processing`\n4. **支付结果**：\n   - **成功**：支付状态变为 `succeeded`，订单状态更新为 `approved`\n   - **失败**：支付状态变为 `failed`，订单保持 `placed` 状态，可以重试支付\n5. **收据**：支付成功后，从订单详情中检索收据\n\n**安全说明**：敏感支付数据（如 CVC 码）为 `writeOnly`，绝不会在响应中返回。卡号和账号在读取时会被遮掩。",
+        "description": "Process payment for an existing order.\n\n## Payment Workflow\n\nPayment processing follows this workflow:\n\n1. **Create Order**: First create an order using `POST /orders` (status: `placed`)\n2. **Submit Payment**: Call this endpoint with payment details (card or bank account)\n3. **Payment Processing**: The payment is processed with status `processing`\n4. **Payment Result**:\n   - **Success**: Payment status becomes `succeeded`, order status updates to `approved`\n   - **Failure**: Payment status becomes `failed`, order remains `placed` and can be retried\n5. **Receipt**: After successful payment, retrieve the receipt from the order details\n\n**Security Note**: Sensitive payment data (like CVC codes) are `writeOnly` and never returned in responses. Card numbers and account numbers are masked when read.",
         "operationId": "createOrderPayment",
         "tags": [
           "Payments"
@@ -1720,7 +1724,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "订单的唯一标识符",
+            "description": "Unique identifier for the order",
             "required": true,
             "example": "019b4139-1234-7abc-8def-123456789abc",
             "schema": {
@@ -1754,7 +1758,7 @@
                       "addressPostCode": "N12 9XX"
                     }
                   },
-                  "summary": "银行卡支付"
+                  "summary": "Pay by Bank Card"
                 },
                 "Bank": {
                   "value": {
@@ -1770,7 +1774,7 @@
                       "country": "gb"
                     }
                   },
-                  "summary": "银行账户支付"
+                  "summary": "Pay by Bank Account"
                 }
               }
             }
@@ -1779,7 +1783,7 @@
         },
         "responses": {
           "201": {
-            "description": "支付成功",
+            "description": "Payment successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -1853,9 +1857,9 @@
     },
     "/users": {
       "post": {
-        "summary": "创建用户",
+        "summary": "Create User",
         "deprecated": false,
-        "description": "注册新用户账户。返回用户详情和身份验证令牌。\n\n**身份验证**：不需要（公开注册）",
+        "description": "Register a new user account. Returns user details and authentication token.\n\n**Authentication**: Not required (public registration)\n",
         "operationId": "createUser",
         "tags": [
           "User"
@@ -1880,7 +1884,7 @@
         },
         "responses": {
           "201": {
-            "description": "用户创建成功。",
+            "description": "User created successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1932,9 +1936,9 @@
     },
     "/users/{id}": {
       "put": {
-        "summary": "更新用户",
+        "summary": "Update User",
         "deprecated": false,
-        "description": "更新用户个人资料信息。\n\n**身份验证**：需要（Bearer 令牌）\n**授权**：用户只能更新自己的资料",
+        "description": "Update user profile information.\n\n**Authentication**: Required (Bearer token)\n**Authorization**: Users can only update their own profile\n",
         "operationId": "updateUser",
         "tags": [
           "User"
@@ -1968,7 +1972,7 @@
         },
         "responses": {
           "200": {
-            "description": "用户更新成功。",
+            "description": "User updated successfully.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2002,9 +2006,9 @@
         ]
       },
       "get": {
-        "summary": "获取用户",
+        "summary": "Get User",
         "deprecated": false,
-        "description": "检索特定用户的公开个人资料信息。\n\n**隐私**：除非请求自己的资料，否则仅返回公开字段。",
+        "description": "Retrieve public profile information for a specific user.\n\n**Privacy**: Only public fields are returned unless requesting own profile\n",
         "operationId": "getUserById",
         "tags": [
           "User"
@@ -2013,7 +2017,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "用户的唯一标识符",
+            "description": "Unique identifier for the user",
             "required": true,
             "example": "user_abc123xyz",
             "schema": {
@@ -2023,7 +2027,7 @@
         ],
         "responses": {
           "200": {
-            "description": "操作成功",
+            "description": "Operation successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -2062,9 +2066,9 @@
         ]
       },
       "delete": {
-        "summary": "删除用户账户",
+        "summary": "Delete User Account",
         "deprecated": false,
-        "description": "永久删除用户账户及其所有相关数据。\n\n**身份验证**：需要（Bearer 令牌）\n**授权**：用户只能删除自己的账户\n**注意**：此操作不可逆。",
+        "description": "Permanently delete a user account and all associated data.\n\n**Authentication**: Required (Bearer token)\n**Authorization**: Users can only delete their own account\n**Note**: This operation is irreversible\n",
         "operationId": "deleteUser",
         "tags": [
           "User"
@@ -2073,7 +2077,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "用户的唯一标识符",
+            "description": "Unique identifier for the user",
             "required": true,
             "example": "user_abc123xyz",
             "schema": {
@@ -2083,7 +2087,7 @@
         ],
         "responses": {
           "204": {
-            "description": "资源删除成功",
+            "description": "Resource deleted successfully",
             "headers": {}
           },
           "400": {
@@ -2107,9 +2111,9 @@
     },
     "/auth/tokens": {
       "post": {
-        "summary": "创建身份验证令牌",
+        "summary": "Create Authentication Token",
         "deprecated": false,
-        "description": "验证用户凭据并获取 API 请求所需的访问令牌。\n\n**身份验证**：不需要（这是登录端点）\n**返回**：有效期为 24 小时的 Bearer 令牌",
+        "description": "Authenticate user credentials and obtain an access token for API requests.\n\n**Authentication**: Not required (this is the login endpoint)\n**Returns**: Bearer token valid for 24 hours\n",
         "operationId": "createToken",
         "tags": [
           "User"
@@ -2149,7 +2153,7 @@
         },
         "responses": {
           "200": {
-            "description": "登录成功",
+            "description": "Login successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -2157,12 +2161,12 @@
                   "properties": {
                     "token": {
                       "type": "string",
-                      "description": "身份验证令牌"
+                      "description": "Authentication token"
                     },
                     "expiresAt": {
                       "type": "string",
                       "format": "date-time",
-                      "description": "令牌过期时间"
+                      "description": "Token expiration time"
                     }
                   }
                 }
@@ -2217,9 +2221,9 @@
     },
     "/": {
       "post": {
-        "summary": "GraphQL 示例",
+        "summary": "GraphQL example",
         "deprecated": false,
-        "description": "### 主要特点\n\n- **免费且公开**：无需 API 密钥或身份验证。\n- **GraphQL Schema**：轻松探索国家、洲和语言之间的关系。\n- **使用场景**：测试 GraphQL 客户端、学习 Schema 导航、构建演示等。\n\n---\n### 使用说明\n在此端点下的“成功”运行环境中，您可以直接向 GraphQL API 发起请求。\n- 查询字段已预先填好。\n- 点击“Schema 已获取”旁的刷新按钮以获取最新 Schema。\n- 点击“发送”即可直接发送请求并接收响应。\n---\n\n### 端点地址\n\n**GraphQL 端点：**\n`\nhttps://countries.trevorblades.com/\n`\n\n---\n\n### 主要 Schema 对象\n\n- **Country (国家)**\n  - 字段：`code` (代码), `name` (名称), `native` (本地名称), `phone` (区号), `continent` (所属洲), `capital` (首都), `currency` (货币), `languages` (语言), `emoji` 等。\n\n- **Continent (洲)**\n  - 字段：`code` (代码), `name` (名称), `countries` (该洲的国家列表)\n\n- **Language (语言)**\n  - 字段：`code` (代码), `name` (名称), `native` (本地名称)\n\n---\n\n### 示例查询\n\n**获取所有国家及其代码和名称：**\n`graphql\n{\n  countries {\n    code\n    name\n  }\n}\n`\n\n**获取单个国家的详情：**\n`graphql\n{\n  country(code: \"JP\") {\n    name\n    capital\n    currency\n    languages {\n      name\n    }\n  }\n}\n`\n\n**列出所有洲及其包含的国家：**\n`graphql\n{\n  continents {\n    name\n    countries {\n      name\n      code\n    }\n  }\n}\n`\n\n---\n\n### 如何使用\n\n- 您可以通过自己的 GraphQL 客户端、curl 访问 API，或在浏览器中访问 [Countries API GraphQL Explorer](https://countries.trevorblades.com/)。\n- 支持自省 (Introspection)，因此您可以在 GraphQL Playground 中直接查看完整的 Schema 和文档。\n\n---\n\n### 常见场景\n\n- **前端原型开发**：用于下拉列表（国家、洲等）。\n- **演示应用**：无需后端即可填充选择输入框。\n- **GraphQL 学习**：练习编写查询并使用真实数据处理关联关系。",
+        "description": "### Key Features\n\n- **Free and public:** No API key or authentication required.\n- **GraphQL Schema:** Explore relationships between countries, continents, and languages easily.\n- **Use cases:** Testing GraphQL clients, learning schema navigation, building demos, etc.\n\n---\n### Usage Instructions  \nIn the \"success\" debug base under this endpoint, you can directly make requests to the GraphQL API.\n- The query field has already been filled out.\n- Click the refresh button next to \"Schema fetched\" to fetch the schema.\n- Click send to directly send the request and receive a response.\n---\n\n### Endpoint\n\n**GraphQL Endpoint:**  \n```\nhttps://countries.trevorblades.com/\n```\n\n---\n\n### Main Schema Objects\n\n- **Country**\n  - Fields: `code`, `name`, `native` (native name), `phone` (country calling code), `continent`, `capital`, `currency`, `languages`, `emoji`, etc.\n  \n- **Continent**\n  - Fields: `code`, `name`, `countries` (list of countries in the continent)\n  \n- **Language**\n  - Fields: `code`, `name`, `native` (native name)\n  \n---\n\n### Example Queries\n\n**Get all countries with their code and name:**\n```graphql\n{\n  countries {\n    code\n    name\n  }\n}\n```\n\n**Get details of a single country:**\n```graphql\n{\n  country(code: \"JP\") {\n    name\n    capital\n    currency\n    languages {\n      name\n    }\n  }\n}\n```\n\n**List all continents and the countries in each:**\n```graphql\n{\n  continents {\n    name\n    countries {\n      name\n      code\n    }\n  }\n}\n```\n\n---\n\n### How to Use\n\n- You can access the API via your own GraphQL client, curl, or visit the [GraphQL Explorer for Countries API](https://countries.trevorblades.com/) in your browser.\n- Supports introspection, so you can see the full schema and documentation directly in the GraphQL Playground.\n\n---\n\n### Common Use-Cases\n\n- **Frontend prototyping:** For dropdowns (countries, continents, etc.)\n- **Demo apps:** Populate select inputs without backend work.\n- **GraphQL learning:** Practice writing queries and navigating relationships with real data.\n",
         "tags": [],
         "parameters": [],
         "requestBody": {
@@ -2250,7 +2254,7 @@
         },
         "responses": {
           "200": {
-            "description": "GraphQL 响应成功",
+            "description": "successful GraphQL response",
             "content": {
               "application/json": {
                 "schema": {
@@ -2274,9 +2278,9 @@
     },
     "/.sse": {
       "post": {
-        "summary": "SSE 示例",
+        "summary": "SSE example",
         "deprecated": false,
-        "description": "当您使用 POST 方法连接到服务器时，系统将自动建立 SSE 连接，服务器将每秒发送一次当前时间。",
+        "description": "When you connect to the server using the POST method, an SSE connection will be automatically established, and the server will send the current time every second.",
         "tags": [],
         "parameters": [],
         "responses": {
@@ -2305,9 +2309,9 @@
     },
     "/calculator.asmx": {
       "post": {
-        "summary": "SOAP 示例",
+        "summary": "SOAP example",
         "deprecated": false,
-        "description": "将请求中的两个整数相加并返回结果。该服务由 DneOnline 提供。",
+        "description": "Add two integers from the request and return the result in the response.\nThe service is provided by DneOnline.",
         "tags": [],
         "parameters": [
           {
@@ -2418,7 +2422,7 @@
     "schemas": {
       "Pet": {
         "type": "object",
-        "description": "宠物商店中待领养的动物信息。",
+        "description": "Animal information in the pet store available for adoption.",
         "required": [
           "id",
           "name",
@@ -2435,7 +2439,7 @@
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "宠物的唯一标识符 (UUID v7)",
+            "description": "Unique identifier for the pet (UUID v7)",
             "example": "019b4132-70aa-764f-b315-e2803d882a24"
           },
           "species": {
@@ -2448,24 +2452,24 @@
               "REPTILE",
               "OTHER"
             ],
-            "description": "宠物的物种"
+            "description": "The species of the pet"
           },
           "name": {
             "type": "string",
             "minLength": 1,
             "maxLength": 50,
-            "description": "宠物的名字",
+            "description": "The pet's name",
             "example": "Whiskers"
           },
           "breed": {
             "type": "string",
-            "description": "宠物的品种",
+            "description": "The breed of the pet",
             "example": "Domestic Shorthair"
           },
           "ageMonths": {
             "type": "integer",
             "minimum": 0,
-            "description": "宠物的月龄",
+            "description": "Age of the pet in months",
             "example": 18
           },
           "size": {
@@ -2475,11 +2479,11 @@
               "MEDIUM",
               "LARGE"
             ],
-            "description": "宠物的尺寸类别"
+            "description": "Size category of the pet"
           },
           "color": {
             "type": "string",
-            "description": "主色或花纹模式",
+            "description": "Primary color or coloring pattern",
             "example": "Orange Tabby"
           },
           "gender": {
@@ -2489,27 +2493,27 @@
               "FEMALE",
               "UNKNOWN"
             ],
-            "description": "宠物的性别"
+            "description": "The pet's gender"
           },
           "goodWithKids": {
             "type": "boolean",
-            "description": "宠物是否适宜与儿童相处"
+            "description": "Whether the pet is good with children"
           },
           "price": {
             "type": "string",
-            "description": "领养费金额",
+            "description": "Adoption fee amount",
             "example": "75.00"
           },
           "currency": {
             "type": "string",
-            "description": "领养费的货币代码 (ISO 4217)",
+            "description": "Currency code for the adoption fee (ISO 4217)",
             "default": "USD",
             "pattern": "^[A-Z]{3}$",
             "example": "USD"
           },
           "description": {
             "type": "string",
-            "description": "关于宠物性格和特质的详细描述"
+            "description": "Detailed description of the pet's personality and traits"
           },
           "status": {
             "type": "string",
@@ -2519,27 +2523,27 @@
               "ADOPTED",
               "NOT_AVAILABLE"
             ],
-            "description": "当前的领养状态"
+            "description": "Current adoption status"
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "宠物记录创建时的时间戳 (RFC 3339)",
+            "description": "Timestamp when the pet record was created (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "宠物记录上次更新时的时间戳 (RFC 3339)",
+            "description": "Timestamp when the pet record was last updated (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "tenantId": {
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "用于数据隔离的可选租户标识符。存在时表示该宠物属于特定租户。若为 null 或省略，则表示该宠物属于共享/公共数据池。",
+            "description": "Optional tenant identifier for data isolation. When present, indicates this pet belongs to a specific tenant. Null or omitted means the pet is in the shared/public data pool.",
             "nullable": true,
             "example": "550e8400-e29b-41d4-a716-446655440000"
           },
@@ -2549,7 +2553,7 @@
               "type": "string",
               "format": "uri"
             },
-            "description": "宠物照片的 URL 列表",
+            "description": "URLs of pet photos",
             "minItems": 0
           },
           "medicalInfo": {
@@ -2557,23 +2561,23 @@
             "properties": {
               "spayedNeutered": {
                 "type": "boolean",
-                "description": "宠物是否已绝育"
+                "description": "Whether the pet has been spayed or neutered"
               },
               "vaccinated": {
                 "type": "boolean",
-                "description": "宠物的疫苗接种是否已是最新"
+                "description": "Whether the pet is up to date on vaccinations"
               },
               "microchipped": {
                 "type": "boolean",
-                "description": "宠物是否植入微芯片"
+                "description": "Whether the pet has a microchip"
               },
               "specialNeeds": {
                 "type": "boolean",
-                "description": "宠物是否有特殊的医疗需求"
+                "description": "Whether the pet has special medical needs"
               },
               "healthNotes": {
                 "type": "string",
-                "description": "额外的医疗备注"
+                "description": "Additional medical notes"
               }
             },
             "unevaluatedProperties": false
@@ -2583,7 +2587,7 @@
       },
       "User": {
         "type": "object",
-        "description": "用户账户信息",
+        "description": "User account information",
         "required": [
           "id",
           "username",
@@ -2598,12 +2602,12 @@
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "用户唯一标识符 (UUID v7)",
+            "description": "Unique user identifier (UUID v7)",
             "example": "019b4138-e0af-70b9-8f0c-6ea97d495dfa"
           },
           "username": {
             "type": "string",
-            "description": "用于登录的唯一用户名",
+            "description": "Unique username for login",
             "minLength": 3,
             "maxLength": 50,
             "example": "johndoe"
@@ -2611,44 +2615,44 @@
           "email": {
             "type": "string",
             "format": "email",
-            "description": "用户邮箱地址",
+            "description": "User email address",
             "example": "user@example.com"
           },
           "firstName": {
             "type": "string",
-            "description": "用户的名",
+            "description": "User's first name",
             "example": "John"
           },
           "lastName": {
             "type": "string",
-            "description": "用户的姓",
+            "description": "User's last name",
             "example": "Doe"
           },
           "phone": {
             "type": "string",
             "pattern": "^\\+?[1-9]\\d{1,14}$",
-            "description": "E.164 格式的电话号码",
+            "description": "Phone number in E.164 format",
             "example": "+12025551234"
           },
           "createdAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "账户创建时间戳 (RFC 3339)",
+            "description": "Account creation timestamp (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "账户上次更新时间戳 (RFC 3339)",
+            "description": "Account last update timestamp (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "tenantId": {
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "用于数据隔离的可选租户标识符。存在时表示该用户属于特定租户。若为 null 或省略，则表示该用户属于共享/公共数据池。",
+            "description": "Optional tenant identifier for data isolation. When present, indicates this user belongs to a specific tenant. Null or omitted means the user is in the shared/public data pool.",
             "nullable": true,
             "example": "550e8400-e29b-41d4-a716-446655440000"
           },
@@ -2657,11 +2661,11 @@
             "properties": {
               "newsletter": {
                 "type": "boolean",
-                "description": "是否接收时事通讯邮件"
+                "description": "Whether to receive newsletter emails"
               },
               "notifications": {
                 "type": "boolean",
-                "description": "是否接收通知邮件"
+                "description": "Whether to receive notification emails"
               }
             },
             "unevaluatedProperties": false
@@ -2671,7 +2675,7 @@
       },
       "PetCollection": {
         "type": "object",
-        "description": "带分页功能的宠物集合",
+        "description": "Collection of pets with pagination",
         "required": [
           "data",
           "pagination"
@@ -2695,22 +2699,22 @@
               "page": {
                 "type": "integer",
                 "minimum": 1,
-                "description": "当前页码"
+                "description": "Current page number"
               },
               "limit": {
                 "type": "integer",
                 "minimum": 1,
-                "description": "每页条目数"
+                "description": "Number of items per page"
               },
               "totalItems": {
                 "type": "integer",
                 "minimum": 0,
-                "description": "总条目数"
+                "description": "Total number of items"
               },
               "totalPages": {
                 "type": "integer",
                 "minimum": 0,
-                "description": "总页数"
+                "description": "Total number of pages"
               }
             },
             "unevaluatedProperties": false
@@ -2719,7 +2723,7 @@
         "unevaluatedProperties": false
       },
       "OrderPayment": {
-        "description": "带多态支付源的订单支付信息",
+        "description": "Order payment information with polymorphic payment sources",
         "type": "object",
         "required": [
           "id",
@@ -2730,19 +2734,19 @@
         ],
         "properties": {
           "id": {
-            "description": "唯一支付标识符",
+            "description": "Unique payment identifier",
             "type": "string",
             "format": "uuid",
             "readOnly": true,
             "example": "2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a"
           },
           "amount": {
-            "description": "支付金额（正数小数）",
+            "description": "Payment amount (positive decimal)",
             "type": "string",
             "example": "49.99"
           },
           "currency": {
-            "description": "三位大写 ISO 4217 货币代码",
+            "description": "Three-letter ISO 4217 currency code (uppercase)",
             "type": "string",
             "enum": [
               "USD",
@@ -2754,7 +2758,7 @@
             "default": "USD"
           },
           "source": {
-            "description": "支付来源（银行卡或银行账户）",
+            "description": "Payment source (card or bank account)",
             "discriminator": {
               "propertyName": "object",
               "mapping": {
@@ -2772,7 +2776,7 @@
             ]
           },
           "status": {
-            "description": "支付状态",
+            "description": "Payment status",
             "type": "string",
             "enum": [
               "PENDING",
@@ -2787,7 +2791,7 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "支付创建时间戳"
+            "description": "Payment creation timestamp"
           }
         },
         "unevaluatedProperties": false
@@ -2795,7 +2799,7 @@
       "CardPaymentSource": {
         "type": "object",
         "title": "Bank Card",
-        "description": "借记卡或信用卡支付源",
+        "description": "Debit or credit card payment source",
         "externalDocs": {
           "description": "Payment Security Best Practices and PCI Compliance Guide",
           "url": "https://petstoreapi.com/docs/payments/security"
@@ -2811,22 +2815,22 @@
           "object": {
             "type": "string",
             "const": "card",
-            "description": "银行卡支付的鉴别值"
+            "description": "Discriminator value for card payments"
           },
           "name": {
             "type": "string",
-            "description": "持卡人姓名",
+            "description": "Cardholder name",
             "example": "Jane Doe"
           },
           "number": {
             "type": "string",
-            "description": "卡号（读取时会被遮掩）",
+            "description": "Card number (masked when reading)",
             "pattern": "^[0-9*]{13,19}$",
             "example": "4242424242424242"
           },
           "cvc": {
             "type": "string",
-            "description": "卡安全码 (CVC)",
+            "description": "Card security code",
             "pattern": "^[0-9]{3,4}$",
             "writeOnly": true
           },
@@ -2834,12 +2838,12 @@
             "type": "integer",
             "minimum": 1,
             "maximum": 12,
-            "description": "有效期月份 (1-12)"
+            "description": "Expiration month (1-12)"
           },
           "expYear": {
             "type": "integer",
             "minimum": 2024,
-            "description": "有效期年份 (4 位数字)"
+            "description": "Expiration year (4 digits)"
           },
           "brand": {
             "type": "string",
@@ -2853,13 +2857,13 @@
               "UNIONPAY"
             ],
             "readOnly": true,
-            "description": "卡品牌"
+            "description": "Card brand"
           },
           "last4": {
             "type": "string",
             "pattern": "^[0-9]{4}$",
             "readOnly": true,
-            "description": "卡号末 4 位"
+            "description": "Last 4 digits"
           },
           "billingAddress": {
             "type": "object",
@@ -2894,7 +2898,7 @@
       },
       "Order": {
         "type": "object",
-        "description": "宠物商店订单详情",
+        "description": "Pet store order details",
         "required": [
           "id",
           "petId",
@@ -2910,24 +2914,24 @@
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "订单唯一标识符 (UUID v7)",
+            "description": "Unique order identifier (UUID v7)",
             "example": "019b4139-1234-7abc-8def-123456789abc"
           },
           "petId": {
             "type": "string",
             "format": "uuid",
-            "description": "被订购宠物的 ID",
+            "description": "ID of the pet being ordered",
             "example": "019b4132-70aa-764f-b315-e2803d882a24"
           },
           "userId": {
             "type": "string",
             "format": "uuid",
-            "description": "下单用户的 ID",
+            "description": "ID of the user placing the order",
             "example": "019b4138-e0af-70b9-8f0c-6ea97d495dfa"
           },
           "status": {
             "type": "string",
-            "description": "订单状态",
+            "description": "Order status",
             "enum": [
               "PLACED",
               "APPROVED",
@@ -2939,12 +2943,12 @@
           },
           "totalAmount": {
             "type": "string",
-            "description": "订单总金额",
+            "description": "Total order amount",
             "example": "125.50"
           },
           "currency": {
             "type": "string",
-            "description": "订单金额的货币代码 (ISO 4217)",
+            "description": "Currency code for the order amount (ISO 4217)",
             "default": "USD",
             "pattern": "^[A-Z]{3}$",
             "example": "USD"
@@ -2953,21 +2957,21 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "订单创建时间戳 (RFC 3339)",
+            "description": "Order creation timestamp (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true,
-            "description": "订单上次更新时间戳 (RFC 3339)",
+            "description": "Order last update timestamp (RFC 3339)",
             "example": "2025-12-21T13:56:23Z"
           },
           "tenantId": {
             "type": "string",
             "format": "uuid",
             "readOnly": true,
-            "description": "用于数据隔离的可选租户标识符。存在时表示该订单属于特定租户。若为 null 或省略，则表示该订单属于共享/公共数据池。",
+            "description": "Optional tenant identifier for data isolation. When present, indicates this order belongs to a specific tenant. Null or omitted means the order is in the shared/public data pool.",
             "nullable": true,
             "example": "550e8400-e29b-41d4-a716-446655440000"
           }
@@ -2977,7 +2981,7 @@
       "BankAccountPaymentSource": {
         "type": "object",
         "title": "Bank Account",
-        "description": "银行账户支付源",
+        "description": "Bank account payment source",
         "externalDocs": {
           "description": "ACH Payment Processing and Bank Account Verification",
           "url": "https://petstoreapi.com/docs/payments/ach-guide"
@@ -2993,20 +2997,20 @@
           "object": {
             "type": "string",
             "const": "bank_account",
-            "description": "银行账户支付的鉴别值"
+            "description": "Discriminator value for bank account payments"
           },
           "accountHolderName": {
             "type": "string",
-            "description": "账户持有者姓名"
+            "description": "Name of account holder"
           },
           "accountNumber": {
             "type": "string",
-            "description": "银行账号（读取时会被遮掩）",
+            "description": "Bank account number (masked when reading)",
             "pattern": "^[0-9*]{4,17}$"
           },
           "routingNumber": {
             "type": "string",
-            "description": "银行路径号码 (Routing Number)",
+            "description": "Bank routing number",
             "pattern": "^[0-9]{9}$"
           },
           "accountType": {
@@ -3015,40 +3019,40 @@
               "CHECKING",
               "SAVINGS"
             ],
-            "description": "银行账户类型"
+            "description": "Type of bank account"
           },
           "bankName": {
             "type": "string",
             "readOnly": true,
-            "description": "银行名称"
+            "description": "Name of the bank"
           },
           "last4": {
             "type": "string",
             "pattern": "^[0-9]{4}$",
             "readOnly": true,
-            "description": "账号末 4 位"
+            "description": "Last 4 digits of account number"
           }
         },
         "unevaluatedProperties": false
       },
       "ApiResponse": {
         "type": "object",
-        "description": "通用 API 响应",
+        "description": "Generic API response",
         "properties": {
           "message": {
             "type": "string",
-            "description": "人类可读的消息"
+            "description": "Human-readable message"
           },
           "success": {
             "type": "boolean",
-            "description": "操作是否成功"
+            "description": "Whether the operation was successful"
           }
         },
         "unevaluatedProperties": false
       },
       "Error": {
         "type": "object",
-        "description": "针对 HTTP API 的 RFC 9457 问题详情",
+        "description": "RFC 9457 Problem Details for HTTP APIs",
         "required": [
           "type",
           "title",
@@ -3058,33 +3062,33 @@
           "type": {
             "type": "string",
             "format": "uri",
-            "description": "标识问题类型的 URI 引用",
+            "description": "A URI reference that identifies the problem type",
             "example": "https://petstoreapi.com/errors/not-found"
           },
           "title": {
             "type": "string",
-            "description": "该问题的简短人类可读摘要",
+            "description": "A short, human-readable summary of the problem",
             "example": "Resource Not Found"
           },
           "status": {
             "type": "integer",
-            "description": "HTTP 状态码",
+            "description": "The HTTP status code",
             "example": 404
           },
           "detail": {
             "type": "string",
-            "description": "针对此次发生的具体人类可读说明",
+            "description": "A human-readable explanation specific to this occurrence",
             "example": "The requested pet with ID '123' was not found"
           },
           "instance": {
             "type": "string",
             "format": "uri",
-            "description": "标识该具体发生情况的 URI 引用",
+            "description": "A URI reference that identifies the specific occurrence",
             "example": "/v1/pets/123"
           },
           "errors": {
             "type": "array",
-            "description": "详细的验证错误信息（适用于 422 响应）",
+            "description": "Detailed validation errors (for 422 responses)",
             "items": {
               "type": "object",
               "required": [
@@ -3094,15 +3098,15 @@
               "properties": {
                 "field": {
                   "type": "string",
-                  "description": "验证失败的字段"
+                  "description": "The field that failed validation"
                 },
                 "message": {
                   "type": "string",
-                  "description": "验证错误的描述"
+                  "description": "Description of the validation error"
                 },
                 "code": {
                   "type": "string",
-                  "description": "机器可读的错误代码"
+                  "description": "Machine-readable error code"
                 }
               },
               "unevaluatedProperties": false
