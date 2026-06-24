@@ -18,7 +18,7 @@
     "auth": {},
     "securityScheme": {},
     "gateway": [],
-    "language": "en-US",
+    "language": "zh-CN",
     "apiStatuses": [
       "developing",
       "testing",
