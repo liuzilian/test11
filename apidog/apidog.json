@@ -165,7 +165,1109 @@
           ],
           "inheritPostProcessors": {},
           "inheritPreProcessors": {},
-          "items": []
+          "items": [
+            {
+              "name": "List Pets",
+              "api": {
+                "id": "3469887",
+                "method": "get",
+                "path": "/pets",
+                "parameters": {
+                  "path": [],
+                  "query": [
+                    {
+                      "id": "OrnURCzqkP",
+                      "name": "species",
+                      "required": false,
+                      "enable": true,
+                      "description": "Filter by pet species",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "enum": [
+                          "DOG",
+                          "CAT",
+                          "RABBIT",
+                          "BIRD",
+                          "REPTILE",
+                          "OTHER"
+                        ]
+                      }
+                    },
+                    {
+                      "id": "YpaWoGdGiB",
+                      "name": "status",
+                      "required": false,
+                      "enable": true,
+                      "description": "Filter by adoption status",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "enum": [
+                          "AVAILABLE",
+                          "PENDING",
+                          "ADOPTED"
+                        ],
+                        "default": "AVAILABLE"
+                      }
+                    },
+                    {
+                      "id": "eJcq1HC6WG",
+                      "name": "ageMin",
+                      "required": false,
+                      "enable": true,
+                      "description": "Minimum age in months",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    {
+                      "id": "ZT2NlDi2Oy",
+                      "name": "ageMax",
+                      "required": false,
+                      "enable": true,
+                      "description": "Maximum age in months",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    {
+                      "id": "Iqg28U6Vz7",
+                      "name": "size",
+                      "required": false,
+                      "enable": true,
+                      "description": "Filter by pet size",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "enum": [
+                          "SMALL",
+                          "MEDIUM",
+                          "LARGE"
+                        ]
+                      }
+                    },
+                    {
+                      "id": "x3Vltjyiqo",
+                      "name": "goodWithKids",
+                      "required": false,
+                      "enable": true,
+                      "description": "Filter pets that are good with children",
+                      "type": "boolean",
+                      "schema": {
+                        "type": "boolean"
+                      }
+                    },
+                    {
+                      "id": "DwCv8sgKmC",
+                      "name": "page",
+                      "required": false,
+                      "enable": true,
+                      "description": "Page number for pagination",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "default": 1
+                      }
+                    },
+                    {
+                      "id": "OJ2ed6ac2B",
+                      "name": "limit",
+                      "required": false,
+                      "enable": true,
+                      "description": "Number of items per page",
+                      "type": "integer",
+                      "schema": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "default": 20
+                      }
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "164112680",
+                    "code": "200",
+                    "name": "OK",
+                    "headers": [
+                      {
+                        "name": "RateLimit-Limit",
+                        "type": "string",
+                        "id": "a33568b2-4108-45da-af07-34b1ca29652b"
+                      },
+                      {
+                        "name": "RateLimit-Remaining",
+                        "type": "string",
+                        "id": "7069ed9e-7066-4ab3-bad9-a0d8fc26c53e"
+                      },
+                      {
+                        "name": "RateLimit-Reset",
+                        "type": "string",
+                        "id": "e3d86ebc-d75a-4bb9-a469-fc686914ec4a"
+                      }
+                    ],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/78"
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response with pet collection",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327270",
+                    "code": 400,
+                    "referencedResponseId": 38079
+                  },
+                  {
+                    "id": "3327283",
+                    "code": 422,
+                    "referencedResponseId": 38085
+                  },
+                  {
+                    "id": "3327274",
+                    "code": 429,
+                    "referencedResponseId": 38083
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Multiple pets available",
+                    "data": "{\n    \"data\": [\n        {\n            \"id\": \"01936c8f-1234-7000-8000-111111111111\",\n            \"species\": \"CAT\",\n            \"name\": \"Whiskers\",\n            \"breed\": \"Domestic Shorthair\",\n            \"ageMonths\": 18,\n            \"size\": \"MEDIUM\",\n            \"color\": \"Orange Tabby\",\n            \"gender\": \"MALE\",\n            \"goodWithKids\": true,\n            \"price\": \"75.00\",\n            \"description\": \"Friendly and playful orange tabby looking for a loving home\",\n            \"status\": \"AVAILABLE\",\n            \"photos\": [\n                \"https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo1.jpg\"\n            ]\n        },\n        {\n            \"id\": \"01936c8f-2345-7000-8000-222222222222\",\n            \"species\": \"DOG\",\n            \"name\": \"Max\",\n            \"breed\": \"Labrador Retriever\",\n            \"ageMonths\": 36,\n            \"size\": \"LARGE\",\n            \"color\": \"Yellow\",\n            \"gender\": \"MALE\",\n            \"goodWithKids\": true,\n            \"price\": \"150.00\",\n            \"description\": \"Energetic and loyal lab who loves fetch and long walks\",\n            \"status\": \"AVAILABLE\",\n            \"photos\": [\n                \"https://cdn.petstoreapi.com/pets/01936c8f-2345-7000-8000-222222222222/photo1.jpg\"\n            ]\n        }\n    ],\n    \"pagination\": {\n        \"page\": 1,\n        \"limit\": 20,\n        \"totalItems\": 45,\n        \"totalPages\": 3\n    }\n}",
+                    "responseId": "164112680",
+                    "description": "",
+                    "oasKey": "multiple-pets",
+                    "oasExtensions": ""
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "oasExtensions": "",
+                  "required": false,
+                  "additionalContentTypes": []
+                },
+                "description": "Retrieve a paginated list of pets available for adoption with optional filtering.",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "listPets",
+                "sourceUrl": "",
+                "ordering": 6,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {
+                  "38079": true,
+                  "38080": true,
+                  "38081": true,
+                  "38082": true,
+                  "38083": true,
+                  "38084": true
+                },
+                "responseChildren": [
+                  "BLANK.164112680",
+                  "COMPONENT.38079",
+                  "COMPONENT.38080",
+                  "COMPONENT.38081",
+                  "COMPONENT.38082",
+                  "COMPONENT.38083",
+                  "COMPONENT.38084"
+                ],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Create Pet",
+              "api": {
+                "id": "3469888",
+                "method": "post",
+                "path": "/pets",
+                "parameters": {
+                  "path": [],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "schemeGroups": [
+                    {
+                      "id": "vi2kWxpwmgzfFGz-R7Xl0",
+                      "schemeIds": [
+                        345035
+                      ]
+                    },
+                    {
+                      "id": "8RQ7rYaq8AXGj04GU5VD9",
+                      "schemeIds": [
+                        345034
+                      ]
+                    }
+                  ],
+                  "required": true,
+                  "use": {
+                    "id": "vi2kWxpwmgzfFGz-R7Xl0",
+                    "configs": {
+                      "345035": {
+                        "authConfigs": {
+                          "x-apidog": {
+                            "token": "{{bearerToken}}"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "scopes": {
+                    "8RQ7rYaq8AXGj04GU5VD9": {
+                      "345034": [
+                        "write:pets"
+                      ]
+                    }
+                  }
+                },
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "104119204",
+                    "code": "201",
+                    "name": "OK",
+                    "headers": [
+                      {
+                        "name": "RateLimit-Limit",
+                        "type": "string",
+                        "id": "617793db-340c-4942-821b-73bb33cb9edc"
+                      },
+                      {
+                        "name": "RateLimit-Remaining",
+                        "type": "string",
+                        "id": "c2fd3fad-c71a-487a-93c4-e82445c2b277"
+                      },
+                      {
+                        "name": "RateLimit-Reset",
+                        "type": "string",
+                        "id": "4be0c062-f382-4839-af36-aea2d6ae9683"
+                      }
+                    ],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/76"
+                    },
+                    "itemSchema": {},
+                    "description": "Pet created successfully",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327270",
+                    "code": 400,
+                    "referencedResponseId": 38079
+                  },
+                  {
+                    "id": "3327271",
+                    "code": 401,
+                    "referencedResponseId": 38080
+                  },
+                  {
+                    "id": "3327283",
+                    "code": 422,
+                    "referencedResponseId": 38085
+                  },
+                  {
+                    "id": "3327274",
+                    "code": 429,
+                    "referencedResponseId": 38083
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/76"
+                  },
+                  "examples": [
+                    {
+                      "value": "{\n    \"name\": \"Max\",\n    \"species\": \"DOG\",\n    \"breed\": \"Golden Retriever\",\n    \"ageMonths\": 24,\n    \"size\": \"LARGE\",\n    \"color\": \"Golden\",\n    \"gender\": \"MALE\",\n    \"goodWithKids\": true,\n    \"price\": \"250.00\",\n    \"currency\": \"USD\",\n    \"status\": \"AVAILABLE\",\n    \"description\": \"Friendly golden retriever looking for an active family\",\n    \"medicalInfo\": {\n        \"vaccinated\": true,\n        \"spayedNeutered\": true,\n        \"microchipped\": true,\n        \"specialNeeds\": false,\n        \"healthNotes\": \"Up to date on all vaccinations\"\n    }\n}",
+                      "mediaType": "application/json",
+                      "description": ""
+                    }
+                  ],
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
+                  "required": true,
+                  "additionalContentTypes": []
+                },
+                "description": "Add a new pet to the store catalog, making it available for adoption.\n\n## Pet Lifecycle Workflow\n\nWhen a new pet enters the system:\n\n1. **Intake**: Staff creates a pet record with this endpoint (status: `available`)\n2. **Profile**: Pet details include species, breed, age, medical info, photos, and adoption fee\n3. **Discovery**: Pet appears in search results and listings\n4. **Adoption Application**: Potential adopters can apply through the adoption endpoints\n5. **Adoption**: Once approved, pet status changes to `adopted`\n6. **Post-Adoption**: Pet record is retained for historical purposes\n\n**Access**: This operation requires staff permissions (`write:pets` scope or valid Bearer token). Only authenticated staff members can add pets to the system.",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "createPet",
+                "sourceUrl": "",
+                "ordering": 12,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [
+                  {
+                    "name": "TypeScript SDK",
+                    "prompt": "",
+                    "language": "typescript",
+                    "code": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\n});\n\nconst newPet = await client.pets.create({\n  species: 'dog',\n  name: 'Buddy',\n  breed: 'Golden Retriever',\n  ageMonths: 24,\n  size: 'large',\n  color: 'Golden',\n  gender: 'male',\n  goodWithKids: true,\n\n  price: '150.00',\n  description: 'Friendly golden retriever looking for an active family'\n});\n\nconsole.log(`Created pet with ID: ${newPet.id}`);"
+                  },
+                  {
+                    "name": "Python",
+                    "prompt": "",
+                    "language": "python",
+                    "code": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\n\nnew_pet = client.pets.create(\n    species='dog',\n    name='Buddy',\n    breed='Golden Retriever',\n    ageMonths=24,\n    size='large',\n    color='Golden',\n    gender='male',\n    goodWithKids=True,\n\n    price='150.00',\n    description='Friendly golden retriever looking for an active family'\n)\n\nprint(f\"Created pet with ID: {new_pet.id}\")"
+                  },
+                  {
+                    "name": "JavaScript (Fetch)",
+                    "prompt": "",
+                    "language": "javascript",
+                    "code": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/pets',\n  {\n    method: 'POST',\n    headers: {\n      'Authorization': `Bearer ${accessToken}`,\n      'Content-Type': 'application/json'\n    },\n    body: JSON.stringify({\n      species: 'dog',\n      name: 'Buddy',\n      breed: 'Golden Retriever',\n      ageMonths: 24,\n      size: 'large',\n      color: 'Golden',\n      gender: 'male',\n      goodWithKids: true,\n\n      price: '150.00',\n      description: 'Friendly golden retriever looking for an active family'\n    })\n  }\n);\n\nconst newPet = await response.json();\nconsole.log(`Created pet with ID: ${newPet.id}`);"
+                  },
+                  {
+                    "name": "cURL",
+                    "prompt": "",
+                    "language": "shell",
+                    "code": "curl -X POST 'https://api.petstoreapi.com/v1/pets' \\\n  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n    \"species\": \"dog\",\n    \"name\": \"Buddy\",\n    \"breed\": \"Golden Retriever\",\n    \"ageMonths\": 24,\n    \"size\": \"large\",\n    \"color\": \"Golden\",\n    \"gender\": \"male\",\n    \"goodWithKids\": true,\n\n    \"price\": \"150.00\",\n    \"description\": \"Friendly golden retriever looking for an active family\"\n  }'"
+                  }
+                ],
+                "commonResponseStatus": {
+                  "38079": true,
+                  "38080": true,
+                  "38081": true,
+                  "38082": true,
+                  "38083": true,
+                  "38084": true
+                },
+                "responseChildren": [
+                  "BLANK.104119204",
+                  "COMPONENT.38079",
+                  "COMPONENT.38080",
+                  "COMPONENT.38081",
+                  "COMPONENT.38082",
+                  "COMPONENT.38083",
+                  "COMPONENT.38084"
+                ],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "{\"x-codeSamples\":[{\"lang\":\"TypeScript\",\"label\":\"TypeScript SDK\",\"source\":\"import { PetStoreAPI } from '@petstoreapi/sdk';\\n\\nconst client = new PetStoreAPI({\\n  accessToken: process.env.OAUTH_ACCESS_TOKEN\\n});\\n\\nconst newPet = await client.pets.create({\\n  species: 'dog',\\n  name: 'Buddy',\\n  breed: 'Golden Retriever',\\n  ageMonths: 24,\\n  size: 'large',\\n  color: 'Golden',\\n  gender: 'male',\\n  goodWithKids: true,\\n\\n  price: '150.00',\\n  description: 'Friendly golden retriever looking for an active family'\\n});\\n\\nconsole.log(`Created pet with ID: ${newPet.id}`);\"},{\"lang\":\"Python\",\"label\":\"Python\",\"source\":\"from petstore import PetStoreAPI\\n\\nclient = PetStoreAPI(access_token=os.environ['OAUTH_ACCESS_TOKEN'])\\n\\nnew_pet = client.pets.create(\\n    species='dog',\\n    name='Buddy',\\n    breed='Golden Retriever',\\n    ageMonths=24,\\n    size='large',\\n    color='Golden',\\n    gender='male',\\n    goodWithKids=True,\\n\\n    price='150.00',\\n    description='Friendly golden retriever looking for an active family'\\n)\\n\\nprint(f\\\"Created pet with ID: {new_pet.id}\\\")\"},{\"lang\":\"JavaScript\",\"label\":\"JavaScript (Fetch)\",\"source\":\"const response = await fetch(\\n  'https://api.petstoreapi.com/v1/pets',\\n  {\\n    method: 'POST',\\n    headers: {\\n      'Authorization': `Bearer ${accessToken}`,\\n      'Content-Type': 'application/json'\\n    },\\n    body: JSON.stringify({\\n      species: 'dog',\\n      name: 'Buddy',\\n      breed: 'Golden Retriever',\\n      ageMonths: 24,\\n      size: 'large',\\n      color: 'Golden',\\n      gender: 'male',\\n      goodWithKids: true,\\n\\n      price: '150.00',\\n      description: 'Friendly golden retriever looking for an active family'\\n    })\\n  }\\n);\\n\\nconst newPet = await response.json();\\nconsole.log(`Created pet with ID: ${newPet.id}`);\"},{\"lang\":\"Shell\",\"label\":\"cURL\",\"source\":\"curl -X POST 'https://api.petstoreapi.com/v1/pets' \\\\\\n  -H 'Authorization: Bearer YOUR_ACCESS_TOKEN' \\\\\\n  -H 'Content-Type: application/json' \\\\\\n  -d '{\\n    \\\"species\\\": \\\"dog\\\",\\n    \\\"name\\\": \\\"Buddy\\\",\\n    \\\"breed\\\": \\\"Golden Retriever\\\",\\n    \\\"ageMonths\\\": 24,\\n    \\\"size\\\": \\\"large\\\",\\n    \\\"color\\\": \\\"Golden\\\",\\n    \\\"gender\\\": \\\"male\\\",\\n    \\\"goodWithKids\\\": true,\\n\\n    \\\"price\\\": \\\"150.00\\\",\\n    \\\"description\\\": \\\"Friendly golden retriever looking for an active family\\\"\\n  }'\"}]}",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get Pet",
+              "api": {
+                "id": "3469889",
+                "method": "get",
+                "path": "/pets/{id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "019bb615-7755-7389-b5fc-9165193e1146",
+                      "type": "string"
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "128701900",
+                    "code": "200",
+                    "name": "OK",
+                    "headers": [
+                      {
+                        "name": "RateLimit-Limit",
+                        "type": "string",
+                        "id": "255d508b-8868-4874-b958-9cc0060931ce"
+                      },
+                      {
+                        "name": "RateLimit-Remaining",
+                        "type": "string",
+                        "id": "05110f5b-121d-4561-b10e-1b08ca8d2413"
+                      },
+                      {
+                        "name": "RateLimit-Reset",
+                        "type": "string",
+                        "id": "d9563b37-dbce-4917-8f78-abf7bca41e46"
+                      }
+                    ],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/76"
+                    },
+                    "itemSchema": {},
+                    "description": "Successful response with pet details",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327270",
+                    "referencedResponseId": 38079
+                  },
+                  {
+                    "id": "3327271",
+                    "referencedResponseId": 38080
+                  },
+                  {
+                    "id": "3327272",
+                    "referencedResponseId": 38081
+                  },
+                  {
+                    "id": "3327273",
+                    "referencedResponseId": 38082
+                  },
+                  {
+                    "id": "3327274",
+                    "referencedResponseId": 38083
+                  },
+                  {
+                    "id": "3327275",
+                    "referencedResponseId": 38084
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "A friendly cat",
+                    "data": "{\n    \"id\": \"01936c8f-1234-7000-8000-111111111111\",\n    \"species\": \"CAT\",\n    \"name\": \"Whiskers\",\n    \"breed\": \"Domestic Shorthair\",\n    \"ageMonths\": 18,\n    \"size\": \"MEDIUM\",\n    \"color\": \"Orange Tabby\",\n    \"gender\": \"MALE\",\n    \"goodWithKids\": true,\n    \"price\": \"75.00\",\n    \"description\": \"Friendly and playful orange tabby looking for a loving home\",\n    \"status\": \"AVAILABLE\",\n    \"photos\": [\n        \"https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo1.jpg\",\n        \"https://cdn.petstoreapi.com/pets/01936c8f-1234-7000-8000-111111111111/photo2.jpg\"\n    ],\n    \"medicalInfo\": {\n        \"spayedNeutered\": true,\n        \"vaccinated\": true,\n        \"microchipped\": true,\n        \"specialNeeds\": false\n    }\n}",
+                    "responseId": "128701900",
+                    "description": "",
+                    "oasKey": "cat-example",
+                    "oasExtensions": ""
+                  }
+                ],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "examples": [],
+                  "mediaType": "",
+                  "oasExtensions": "",
+                  "required": false,
+                  "additionalContentTypes": []
+                },
+                "description": "Retrieve detailed information about a specific pet.",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "getPet",
+                "sourceUrl": "",
+                "ordering": 18,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [
+                  {
+                    "name": "TypeScript SDK",
+                    "prompt": "",
+                    "language": "typescript",
+                    "code": "import { PetStoreAPI } from '@petstoreapi/sdk';\n\nconst client = new PetStoreAPI({\n  apiKey: process.env.PETSTORE_API_KEY\n});\n\nconst pet = await client.pets.get('01936c8f-1234-7000-8000-111111111111');\nconsole.log(`Found ${pet.name}, a ${pet.ageMonths}-month-old ${pet.species}`);"
+                  },
+                  {
+                    "name": "Python",
+                    "prompt": "",
+                    "language": "python",
+                    "code": "from petstore import PetStoreAPI\n\nclient = PetStoreAPI(api_key=os.environ['PETSTORE_API_KEY'])\n\npet = client.pets.get('01936c8f-1234-7000-8000-111111111111')\nprint(f\"Found {pet.name}, a {pet.age_months}-month-old {pet.species}\")"
+                  },
+                  {
+                    "name": "JavaScript (Fetch)",
+                    "prompt": "",
+                    "language": "javascript",
+                    "code": "const response = await fetch(\n  'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111',\n  {\n    headers: {\n      'Accept': 'application/json'\n    }\n  }\n);\n\nconst pet = await response.json();\nconsole.log(`Found ${pet.name}, a ${pet.age_months}-month-old ${pet.species}`);"
+                  },
+                  {
+                    "name": "cURL",
+                    "prompt": "",
+                    "language": "shell",
+                    "code": "curl -X GET 'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111' \\\n  -H 'Accept: application/json'"
+                  }
+                ],
+                "commonResponseStatus": {
+                  "38079": true,
+                  "38080": true,
+                  "38081": true,
+                  "38082": true,
+                  "38083": true,
+                  "38084": true
+                },
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "{\"x-codeSamples\":[{\"lang\":\"TypeScript\",\"label\":\"TypeScript SDK\",\"source\":\"import { PetStoreAPI } from '@petstoreapi/sdk';\\n\\nconst client = new PetStoreAPI({\\n  apiKey: process.env.PETSTORE_API_KEY\\n});\\n\\nconst pet = await client.pets.get('01936c8f-1234-7000-8000-111111111111');\\nconsole.log(`Found ${pet.name}, a ${pet.ageMonths}-month-old ${pet.species}`);\"},{\"lang\":\"Python\",\"label\":\"Python\",\"source\":\"from petstore import PetStoreAPI\\n\\nclient = PetStoreAPI(api_key=os.environ['PETSTORE_API_KEY'])\\n\\npet = client.pets.get('01936c8f-1234-7000-8000-111111111111')\\nprint(f\\\"Found {pet.name}, a {pet.age_months}-month-old {pet.species}\\\")\"},{\"lang\":\"JavaScript\",\"label\":\"JavaScript (Fetch)\",\"source\":\"const response = await fetch(\\n  'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111',\\n  {\\n    headers: {\\n      'Accept': 'application/json'\\n    }\\n  }\\n);\\n\\nconst pet = await response.json();\\nconsole.log(`Found ${pet.name}, a ${pet.age_months}-month-old ${pet.species}`);\"},{\"lang\":\"Shell\",\"label\":\"cURL\",\"source\":\"curl -X GET 'https://api.petstoreapi.com/v1/pets/01936c8f-1234-7000-8000-111111111111' \\\\\\n  -H 'Accept: application/json'\"}]}",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Update Pet",
+              "api": {
+                "id": "3469890",
+                "method": "put",
+                "path": "/pets/{id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string"
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "schemeGroups": [
+                    {
+                      "id": "Lold6HbRy6YzFKHzQjsNH",
+                      "schemeIds": [
+                        345035
+                      ]
+                    },
+                    {
+                      "id": "iqyKQcglVDeTtu9vVhCIS",
+                      "schemeIds": [
+                        345034
+                      ]
+                    }
+                  ],
+                  "required": true,
+                  "use": {
+                    "id": "Lold6HbRy6YzFKHzQjsNH",
+                    "configs": {
+                      "345035": {
+                        "authConfigs": {
+                          "x-apidog": {
+                            "token": "{{bearerToken}}"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "scopes": {
+                    "iqyKQcglVDeTtu9vVhCIS": {
+                      "345034": [
+                        "write:pets"
+                      ]
+                    }
+                  }
+                },
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "197347099",
+                    "code": "200",
+                    "name": "OK",
+                    "headers": [
+                      {
+                        "name": "RateLimit-Limit",
+                        "type": "string",
+                        "id": "76b4aaa9-cfeb-4e96-9bd4-e8756d10558d"
+                      },
+                      {
+                        "name": "RateLimit-Remaining",
+                        "type": "string",
+                        "id": "b42cae08-8f3a-466e-b877-bb7acc9ad41f"
+                      },
+                      {
+                        "name": "RateLimit-Reset",
+                        "type": "string",
+                        "id": "81b50072-6b03-4ab5-9aa8-7500de192a09"
+                      }
+                    ],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/76"
+                    },
+                    "itemSchema": {},
+                    "description": "Pet updated successfully",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327270",
+                    "referencedResponseId": 38079
+                  },
+                  {
+                    "id": "3327271",
+                    "referencedResponseId": 38080
+                  },
+                  {
+                    "id": "3327272",
+                    "referencedResponseId": 38081
+                  },
+                  {
+                    "id": "3327273",
+                    "referencedResponseId": 38082
+                  },
+                  {
+                    "id": "3327274",
+                    "referencedResponseId": 38083
+                  },
+                  {
+                    "id": "3327275",
+                    "referencedResponseId": 38084
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/76"
+                  },
+                  "examples": [
+                    {
+                      "value": "{\n    \"status\": \"PENDING\"\n}",
+                      "mediaType": "application/json",
+                      "description": ""
+                    }
+                  ],
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
+                  "required": true,
+                  "additionalContentTypes": []
+                },
+                "description": "Update information for an existing pet in the catalog.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "updatePet",
+                "sourceUrl": "",
+                "ordering": 24,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {
+                  "38079": true,
+                  "38080": true,
+                  "38081": true,
+                  "38082": true,
+                  "38083": true,
+                  "38084": true
+                },
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Delete Pet",
+              "api": {
+                "id": "3469891",
+                "method": "delete",
+                "path": "/pets/{id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string"
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "schemeGroups": [
+                    {
+                      "id": "ZM1x57yynQaJ2O1kDrxS8",
+                      "schemeIds": [
+                        345035
+                      ]
+                    },
+                    {
+                      "id": "ETu6NVcHXIIlu4TgoKlvP",
+                      "schemeIds": [
+                        345034
+                      ]
+                    }
+                  ],
+                  "required": true,
+                  "use": {
+                    "id": "ZM1x57yynQaJ2O1kDrxS8",
+                    "configs": {
+                      "345035": {
+                        "authConfigs": {
+                          "x-apidog": {
+                            "token": "{{bearerToken}}"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "scopes": {
+                    "ETu6NVcHXIIlu4TgoKlvP": {
+                      "345034": [
+                        "write:pets"
+                      ]
+                    }
+                  }
+                },
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "100452681",
+                    "code": "204",
+                    "name": "OK",
+                    "headers": [],
+                    "jsonSchema": {
+                      "type": "object",
+                      "properties": {},
+                      "x-apidog-orders": []
+                    },
+                    "itemSchema": {},
+                    "description": "Pet deleted successfully",
+                    "contentType": "noContent",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327270",
+                    "code": 400,
+                    "referencedResponseId": 38079
+                  },
+                  {
+                    "id": "3327271",
+                    "code": 401,
+                    "referencedResponseId": 38080
+                  },
+                  {
+                    "id": "3327272",
+                    "code": 403,
+                    "referencedResponseId": 38081
+                  },
+                  {
+                    "id": "3327273",
+                    "code": 404,
+                    "referencedResponseId": 38082
+                  },
+                  {
+                    "id": "3327274",
+                    "code": 429,
+                    "referencedResponseId": 38083
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "oasExtensions": "",
+                  "required": false,
+                  "additionalContentTypes": []
+                },
+                "description": "Remove a pet from the system permanently.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n**Note**: This operation is irreversible. Consider updating the pet status to NOT_AVAILABLE instead.\n",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "deletePet",
+                "sourceUrl": "",
+                "ordering": 30,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {
+                  "38079": true,
+                  "38080": true,
+                  "38081": true,
+                  "38082": true,
+                  "38083": true,
+                  "38084": true
+                },
+                "responseChildren": [
+                  "BLANK.100452681",
+                  "COMPONENT.38079",
+                  "COMPONENT.38080",
+                  "COMPONENT.38081",
+                  "COMPONENT.38082",
+                  "COMPONENT.38083",
+                  "COMPONENT.38084"
+                ],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Upload Pet Image",
+              "api": {
+                "id": "3469892",
+                "method": "post",
+                "path": "/pets/{id}/images",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "id#0",
+                      "name": "id",
+                      "required": true,
+                      "enable": true,
+                      "description": "Unique identifier for the pet",
+                      "example": "01936c8f-1234-7000-8000-111111111111",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {
+                  "type": "securityscheme"
+                },
+                "securityScheme": {
+                  "schemeGroups": [
+                    {
+                      "id": "4TPwF7f6mNOrkK7Q4ZDiY",
+                      "schemeIds": [
+                        345035
+                      ]
+                    },
+                    {
+                      "id": "f6NKzN6zhfoMDZZysofnC",
+                      "schemeIds": [
+                        345034
+                      ]
+                    }
+                  ],
+                  "required": true,
+                  "use": {
+                    "id": "4TPwF7f6mNOrkK7Q4ZDiY",
+                    "configs": {
+                      "345035": {
+                        "authConfigs": {
+                          "x-apidog": {
+                            "token": "{{bearerToken}}"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "scopes": {
+                    "f6NKzN6zhfoMDZZysofnC": {
+                      "345034": [
+                        "write:pets"
+                      ]
+                    }
+                  }
+                },
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "151040523",
+                    "code": "201",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/83"
+                    },
+                    "itemSchema": {},
+                    "description": "Operation successful",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "3327271",
+                    "code": 401,
+                    "referencedResponseId": 38080
+                  },
+                  {
+                    "id": "3327273",
+                    "code": 404,
+                    "referencedResponseId": 38082
+                  }
+                ],
+                "responseExamples": [
+                  {
+                    "name": "Success",
+                    "data": "{\n    \"code\": 3,\n    \"type\": \"ex dolor\",\n    \"message\": \"Pecus carcer cometes credo.\"\n}",
+                    "responseId": "151040523",
+                    "description": "",
+                    "oasKey": "",
+                    "oasExtensions": ""
+                  }
+                ],
+                "requestBody": {
+                  "type": "multipart/form-data",
+                  "parameters": [
+                    {
+                      "id": "uio203RM21",
+                      "name": "additionalMetadata",
+                      "required": false,
+                      "enable": true,
+                      "description": "Additional data to pass to server",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "description": "Additional data to pass to server",
+                        "type": "string",
+                        "examples": [
+                          ""
+                        ]
+                      }
+                    },
+                    {
+                      "id": "5C08SJ1N4H",
+                      "name": "file",
+                      "required": false,
+                      "enable": true,
+                      "description": "File to upload",
+                      "example": "",
+                      "type": "file",
+                      "schema": {
+                        "description": "File to upload",
+                        "type": "string",
+                        "format": "binary",
+                        "examples": [
+                          ""
+                        ]
+                      }
+                    }
+                  ],
+                  "oasExtensions": "",
+                  "required": false,
+                  "additionalContentTypes": []
+                },
+                "description": "Upload a photo for the specified pet. Supports JPEG, PNG, and WebP formats up to 5MB.\n\n**Authentication**: Requires `write:pets` scope or Bearer token\n",
+                "tags": [
+                  "Pet"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "uploadPetPhoto",
+                "sourceUrl": "",
+                "ordering": 36,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 300300,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
         },
         {
           "name": "Chat",
@@ -3949,6 +5051,246 @@
       "moduleId": 300300,
       "items": [
         {
+          "name": "Pet",
+          "displayName": "",
+          "id": "#/definitions/76",
+          "description": "Animal information in the pet store available for adoption.",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "description": "Animal information in the pet store available for adoption.",
+              "required": [
+                "id",
+                "name",
+                "species",
+                "ageMonths",
+                "price",
+                "currency",
+                "status",
+                "createdAt",
+                "updatedAt"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid",
+                  "readOnly": true,
+                  "description": "Unique identifier for the pet (UUID v7)",
+                  "examples": [
+                    "019b4132-70aa-764f-b315-e2803d882a24",
+                    "019b4127-54d5-76d9-b626-0d4c7bfce5b6"
+                  ]
+                },
+                "species": {
+                  "type": "string",
+                  "enum": [
+                    "DOG",
+                    "CAT",
+                    "RABBIT",
+                    "BIRD",
+                    "REPTILE",
+                    "OTHER"
+                  ],
+                  "description": "The species of the pet"
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 50,
+                  "description": "The pet's name",
+                  "examples": [
+                    "Whiskers",
+                    "Max",
+                    "Luna"
+                  ]
+                },
+                "breed": {
+                  "type": "string",
+                  "description": "The breed of the pet",
+                  "examples": [
+                    "Domestic Shorthair",
+                    "Labrador Retriever",
+                    "Holland Lop"
+                  ]
+                },
+                "ageMonths": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Age of the pet in months",
+                  "examples": [
+                    18,
+                    36,
+                    6
+                  ]
+                },
+                "size": {
+                  "type": "string",
+                  "enum": [
+                    "SMALL",
+                    "MEDIUM",
+                    "LARGE"
+                  ],
+                  "description": "Size category of the pet"
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Primary color or coloring pattern",
+                  "examples": [
+                    "Orange Tabby",
+                    "Black",
+                    "Brown and White"
+                  ]
+                },
+                "gender": {
+                  "type": "string",
+                  "enum": [
+                    "MALE",
+                    "FEMALE",
+                    "UNKNOWN"
+                  ],
+                  "description": "The pet's gender"
+                },
+                "goodWithKids": {
+                  "type": "boolean",
+                  "description": "Whether the pet is good with children"
+                },
+                "price": {
+                  "type": "string",
+                  "description": "Adoption fee amount",
+                  "examples": [
+                    "75.00",
+                    "150.00",
+                    "50.00"
+                  ]
+                },
+                "currency": {
+                  "type": "string",
+                  "description": "Currency code for the adoption fee (ISO 4217)",
+                  "default": "USD",
+                  "pattern": "^[A-Z]{3}$",
+                  "examples": [
+                    "USD",
+                    "EUR",
+                    "GBP"
+                  ]
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Detailed description of the pet's personality and traits"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "AVAILABLE",
+                    "PENDING",
+                    "ADOPTED",
+                    "NOT_AVAILABLE"
+                  ],
+                  "description": "Current adoption status"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "readOnly": true,
+                  "description": "Timestamp when the pet record was created (RFC 3339)",
+                  "examples": [
+                    "2025-12-21T13:56:23Z",
+                    "2025-11-15T08:30:00Z"
+                  ]
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "readOnly": true,
+                  "description": "Timestamp when the pet record was last updated (RFC 3339)",
+                  "examples": [
+                    "2025-12-21T13:56:23Z",
+                    "2025-12-21T15:30:45Z"
+                  ]
+                },
+                "tenantId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uuid",
+                  "readOnly": true,
+                  "description": "Optional tenant identifier for data isolation. When present, indicates this pet belongs to a specific tenant. Null or omitted means the pet is in the shared/public data pool.",
+                  "examples": [
+                    "550e8400-e29b-41d4-a716-446655440000",
+                    "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                  ]
+                },
+                "photos": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "description": "URLs of pet photos",
+                  "minItems": 0
+                },
+                "medicalInfo": {
+                  "type": "object",
+                  "properties": {
+                    "spayedNeutered": {
+                      "type": "boolean",
+                      "description": "Whether the pet has been spayed or neutered"
+                    },
+                    "vaccinated": {
+                      "type": "boolean",
+                      "description": "Whether the pet is up to date on vaccinations"
+                    },
+                    "microchipped": {
+                      "type": "boolean",
+                      "description": "Whether the pet has a microchip"
+                    },
+                    "specialNeeds": {
+                      "type": "boolean",
+                      "description": "Whether the pet has special medical needs"
+                    },
+                    "healthNotes": {
+                      "type": "string",
+                      "description": "Additional medical notes"
+                    }
+                  },
+                  "unevaluatedProperties": false,
+                  "x-apidog-orders": [
+                    "spayedNeutered",
+                    "vaccinated",
+                    "microchipped",
+                    "specialNeeds",
+                    "healthNotes"
+                  ]
+                }
+              },
+              "unevaluatedProperties": false,
+              "x-apidog-orders": [
+                "id",
+                "species",
+                "name",
+                "breed",
+                "ageMonths",
+                "size",
+                "color",
+                "gender",
+                "goodWithKids",
+                "price",
+                "currency",
+                "description",
+                "status",
+                "createdAt",
+                "updatedAt",
+                "tenantId",
+                "photos",
+                "medicalInfo"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 300300
+        },
+        {
           "name": "User",
           "displayName": "",
           "id": "#/definitions/77",
@@ -4084,6 +5426,75 @@
                 "updatedAt",
                 "tenantId",
                 "preferences"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 300300
+        },
+        {
+          "name": "PetCollection",
+          "displayName": "",
+          "id": "#/definitions/78",
+          "description": "Collection of pets with pagination",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "description": "Collection of pets with pagination",
+              "required": [
+                "data",
+                "pagination"
+              ],
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/76"
+                  }
+                },
+                "pagination": {
+                  "type": "object",
+                  "required": [
+                    "page",
+                    "limit",
+                    "totalItems",
+                    "totalPages"
+                  ],
+                  "properties": {
+                    "page": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Current page number"
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Number of items per page"
+                    },
+                    "totalItems": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Total number of items"
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "description": "Total number of pages"
+                    }
+                  },
+                  "unevaluatedProperties": false,
+                  "x-apidog-orders": [
+                    "page",
+                    "limit",
+                    "totalItems",
+                    "totalPages"
+                  ]
+                }
+              },
+              "unevaluatedProperties": false,
+              "x-apidog-orders": [
+                "data",
+                "pagination"
               ]
             }
           },
@@ -4315,6 +5726,35 @@
                 "createdAt",
                 "updatedAt",
                 "tenantId"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 300300
+        },
+        {
+          "name": "ApiResponse",
+          "displayName": "",
+          "id": "#/definitions/83",
+          "description": "Generic API response",
+          "schema": {
+            "jsonSchema": {
+              "type": "object",
+              "description": "Generic API response",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Human-readable message"
+                },
+                "success": {
+                  "type": "boolean",
+                  "description": "Whether the operation was successful"
+                }
+              },
+              "unevaluatedProperties": false,
+              "x-apidog-orders": [
+                "message",
+                "success"
               ]
             }
           },
@@ -4628,344 +6068,6 @@
                 "accountType",
                 "bankName",
                 "last4"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 300300
-        },
-        {
-          "name": "Pet",
-          "displayName": "",
-          "id": "#/definitions/76",
-          "description": "Animal information in the pet store available for adoption.",
-          "schema": {
-            "jsonSchema": {
-              "type": "object",
-              "description": "Animal information in the pet store available for adoption.",
-              "required": [
-                "id",
-                "name",
-                "species",
-                "ageMonths",
-                "price",
-                "currency",
-                "status",
-                "createdAt",
-                "updatedAt"
-              ],
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "format": "uuid",
-                  "readOnly": true,
-                  "description": "Unique identifier for the pet (UUID v7)",
-                  "examples": [
-                    "019b4132-70aa-764f-b315-e2803d882a24",
-                    "019b4127-54d5-76d9-b626-0d4c7bfce5b6"
-                  ]
-                },
-                "species": {
-                  "type": "string",
-                  "enum": [
-                    "DOG",
-                    "CAT",
-                    "RABBIT",
-                    "BIRD",
-                    "REPTILE",
-                    "OTHER"
-                  ],
-                  "description": "The species of the pet"
-                },
-                "name": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 50,
-                  "description": "The pet's name",
-                  "examples": [
-                    "Whiskers",
-                    "Max",
-                    "Luna"
-                  ]
-                },
-                "breed": {
-                  "type": "string",
-                  "description": "The breed of the pet",
-                  "examples": [
-                    "Domestic Shorthair",
-                    "Labrador Retriever",
-                    "Holland Lop"
-                  ]
-                },
-                "ageMonths": {
-                  "type": "integer",
-                  "minimum": 0,
-                  "description": "Age of the pet in months",
-                  "examples": [
-                    18,
-                    36,
-                    6
-                  ]
-                },
-                "size": {
-                  "type": "string",
-                  "enum": [
-                    "SMALL",
-                    "MEDIUM",
-                    "LARGE"
-                  ],
-                  "description": "Size category of the pet"
-                },
-                "color": {
-                  "type": "string",
-                  "description": "Primary color or coloring pattern",
-                  "examples": [
-                    "Orange Tabby",
-                    "Black",
-                    "Brown and White"
-                  ]
-                },
-                "gender": {
-                  "type": "string",
-                  "enum": [
-                    "MALE",
-                    "FEMALE",
-                    "UNKNOWN"
-                  ],
-                  "description": "The pet's gender"
-                },
-                "goodWithKids": {
-                  "type": "boolean",
-                  "description": "Whether the pet is good with children"
-                },
-                "price": {
-                  "type": "string",
-                  "description": "Adoption fee amount",
-                  "examples": [
-                    "75.00",
-                    "150.00",
-                    "50.00"
-                  ]
-                },
-                "currency": {
-                  "type": "string",
-                  "description": "Currency code for the adoption fee (ISO 4217)",
-                  "default": "USD",
-                  "pattern": "^[A-Z]{3}$",
-                  "examples": [
-                    "USD",
-                    "EUR",
-                    "GBP"
-                  ]
-                },
-                "description": {
-                  "type": "string",
-                  "description": "Detailed description of the pet's personality and traits"
-                },
-                "status": {
-                  "type": "string",
-                  "enum": [
-                    "AVAILABLE",
-                    "PENDING",
-                    "ADOPTED",
-                    "NOT_AVAILABLE"
-                  ],
-                  "description": "Current adoption status"
-                },
-                "createdAt": {
-                  "type": "string",
-                  "format": "date-time",
-                  "readOnly": true,
-                  "description": "Timestamp when the pet record was created (RFC 3339)",
-                  "examples": [
-                    "2025-12-21T13:56:23Z",
-                    "2025-11-15T08:30:00Z"
-                  ]
-                },
-                "updatedAt": {
-                  "type": "string",
-                  "format": "date-time",
-                  "readOnly": true,
-                  "description": "Timestamp when the pet record was last updated (RFC 3339)",
-                  "examples": [
-                    "2025-12-21T13:56:23Z",
-                    "2025-12-21T15:30:45Z"
-                  ]
-                },
-                "tenantId": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "uuid",
-                  "readOnly": true,
-                  "description": "Optional tenant identifier for data isolation. When present, indicates this pet belongs to a specific tenant. Null or omitted means the pet is in the shared/public data pool.",
-                  "examples": [
-                    "550e8400-e29b-41d4-a716-446655440000",
-                    "7c9e6679-7425-40de-944b-e07fc1f90ae7"
-                  ]
-                },
-                "photos": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  "description": "URLs of pet photos",
-                  "minItems": 0
-                },
-                "medicalInfo": {
-                  "type": "object",
-                  "properties": {
-                    "spayedNeutered": {
-                      "type": "boolean",
-                      "description": "Whether the pet has been spayed or neutered"
-                    },
-                    "vaccinated": {
-                      "type": "boolean",
-                      "description": "Whether the pet is up to date on vaccinations"
-                    },
-                    "microchipped": {
-                      "type": "boolean",
-                      "description": "Whether the pet has a microchip"
-                    },
-                    "specialNeeds": {
-                      "type": "boolean",
-                      "description": "Whether the pet has special medical needs"
-                    },
-                    "healthNotes": {
-                      "type": "string",
-                      "description": "Additional medical notes"
-                    }
-                  },
-                  "unevaluatedProperties": false,
-                  "x-apidog-orders": [
-                    "spayedNeutered",
-                    "vaccinated",
-                    "microchipped",
-                    "specialNeeds",
-                    "healthNotes"
-                  ]
-                }
-              },
-              "unevaluatedProperties": false,
-              "x-apidog-orders": [
-                "id",
-                "species",
-                "name",
-                "breed",
-                "ageMonths",
-                "size",
-                "color",
-                "gender",
-                "goodWithKids",
-                "price",
-                "currency",
-                "description",
-                "status",
-                "createdAt",
-                "updatedAt",
-                "tenantId",
-                "photos",
-                "medicalInfo"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 300300
-        },
-        {
-          "name": "PetCollection",
-          "displayName": "",
-          "id": "#/definitions/78",
-          "description": "Collection of pets with pagination",
-          "schema": {
-            "jsonSchema": {
-              "type": "object",
-              "description": "Collection of pets with pagination",
-              "required": [
-                "data",
-                "pagination"
-              ],
-              "properties": {
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/76"
-                  }
-                },
-                "pagination": {
-                  "type": "object",
-                  "required": [
-                    "page",
-                    "limit",
-                    "totalItems",
-                    "totalPages"
-                  ],
-                  "properties": {
-                    "page": {
-                      "type": "integer",
-                      "minimum": 1,
-                      "description": "Current page number"
-                    },
-                    "limit": {
-                      "type": "integer",
-                      "minimum": 1,
-                      "description": "Number of items per page"
-                    },
-                    "totalItems": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "description": "Total number of items"
-                    },
-                    "totalPages": {
-                      "type": "integer",
-                      "minimum": 0,
-                      "description": "Total number of pages"
-                    }
-                  },
-                  "unevaluatedProperties": false,
-                  "x-apidog-orders": [
-                    "page",
-                    "limit",
-                    "totalItems",
-                    "totalPages"
-                  ]
-                }
-              },
-              "unevaluatedProperties": false,
-              "x-apidog-orders": [
-                "data",
-                "pagination"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 300300
-        },
-        {
-          "name": "ApiResponse",
-          "displayName": "",
-          "id": "#/definitions/83",
-          "description": "Generic API response",
-          "schema": {
-            "jsonSchema": {
-              "type": "object",
-              "description": "Generic API response",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "description": "Human-readable message"
-                },
-                "success": {
-                  "type": "boolean",
-                  "description": "Whether the operation was successful"
-                }
-              },
-              "unevaluatedProperties": false,
-              "x-apidog-orders": [
-                "message",
-                "success"
               ]
             }
           },
@@ -5875,49 +6977,7 @@
     }
   ],
   "testCaseReferences": [],
-  "environments": [
-    {
-      "name": "Production Env",
-      "requestProxyAgentSettings": {},
-      "variables": [
-        {
-          "name": "petId",
-          "securityType": "default",
-          "value": "",
-          "description": "",
-          "initialValue": "",
-          "isSync": true
-        }
-      ],
-      "parameters": {
-        "cookie": [],
-        "query": [],
-        "header": [],
-        "body": []
-      },
-      "type": "normal",
-      "visibility": "protected",
-      "ordering": 0,
-      "tags": [
-        {
-          "name": "",
-          "color": "#1890FF"
-        }
-      ],
-      "advancedSettings": {},
-      "id": "345172",
-      "baseUrl": "https://api.petstoreapi.com/v1",
-      "baseUrls": {
-        "300300": "https://api.petstoreapi.com/v1"
-      },
-      "socketioBaseUrls": {
-        "300300": "wss://ws.postman-echo.com/socketio"
-      },
-      "websocketBaseUrls": {
-        "300300": "wss://echo.websocket.org"
-      }
-    }
-  ],
+  "environments": [],
   "commonScripts": [],
   "databaseConnections": [],
   "globalVariables": [],
