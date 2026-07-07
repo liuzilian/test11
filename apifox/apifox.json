@@ -52,7 +52,11 @@
         "moduleId": 313825
       }
     ],
-    "cloudMock": {}
+    "cloudMock": {
+      "security": "free",
+      "enable": false,
+      "tokenKey": "apifoxToken"
+    }
   },
   "apiCollection": [
     {
@@ -3101,15 +3105,14 @@
     {
       "_databaseId": 5732390,
       "updatedAt": "2026-06-04T02:42:50.000Z",
-      "id": 5732390,
       "name": "根目录",
       "type": "root",
       "children": [],
       "moduleId": 313825,
       "parentId": 0,
+      "id": 5732390,
       "items": [
         {
-          "id": 340186588,
           "name": "BadRequest",
           "moduleId": 313825,
           "contentType": "json",
@@ -3154,6 +3157,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186588,
           "databaseResponseExamples": [
             {
               "id": 3485710,
@@ -3189,7 +3193,6 @@
           ]
         },
         {
-          "id": 340186589,
           "name": "Unauthorized",
           "moduleId": 313825,
           "contentType": "json",
@@ -3234,6 +3237,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186589,
           "databaseResponseExamples": [
             {
               "id": 3485711,
@@ -3269,7 +3273,6 @@
           ]
         },
         {
-          "id": 340186590,
           "name": "Forbidden",
           "moduleId": 313825,
           "contentType": "json",
@@ -3314,6 +3317,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186590,
           "databaseResponseExamples": [
             {
               "id": 3485712,
@@ -3349,7 +3353,6 @@
           ]
         },
         {
-          "id": 340186591,
           "name": "NotFound",
           "moduleId": 313825,
           "contentType": "json",
@@ -3394,6 +3397,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186591,
           "databaseResponseExamples": [
             {
               "id": 3485713,
@@ -3429,7 +3433,6 @@
           ]
         },
         {
-          "id": 340186592,
           "name": "TooManyRequests",
           "moduleId": 313825,
           "contentType": "json",
@@ -3474,6 +3477,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186592,
           "databaseResponseExamples": [
             {
               "id": 3485714,
@@ -3509,7 +3513,6 @@
           ]
         },
         {
-          "id": 340186593,
           "name": "InternalServerError",
           "moduleId": 313825,
           "contentType": "json",
@@ -3554,6 +3557,7 @@
           },
           "defaultEnable": false,
           "folderId": 0,
+          "id": 340186593,
           "databaseResponseExamples": [
             {
               "id": 3485715,
