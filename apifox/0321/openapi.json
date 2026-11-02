@@ -107,7 +107,11 @@
             "headers": {}
           }
         },
-        "security": []
+        "security": [
+          {
+            "Auth-Bearer Token": []
+          }
+        ]
       }
     },
     "/ref/current_module/2": {
@@ -140,7 +144,11 @@
             "headers": {}
           }
         },
-        "security": []
+        "security": [
+          {
+            "M1_scheme1": []
+          }
+        ]
       }
     },
     "/pet/{petId}": {
@@ -757,7 +765,16 @@
         }
       }
     },
-    "securitySchemes": {}
+    "securitySchemes": {
+      "Auth-Bearer Token": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "M1_scheme1": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   },
   "servers": [],
   "security": []
